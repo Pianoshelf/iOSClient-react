@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var Browse = require('./Browse');
+var LeftNavigation = require('./LeftNavigation');
 
 var {
   AppRegistry,
@@ -12,44 +13,22 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  container: {
+  containerDark: {
     flexDirection: 'row', 
     flex: 1,
     marginTop: 30,
     backgroundColor: 'rgb(70,70,70)'
   },
-  leftNav: {
+  containerLight: {
     flexDirection: 'row', 
-    backgroundColor: 'blue',
-    flex: 0.1,
+    flex: 1,
+    marginTop: 30,
+    backgroundColor: 'rgb(240,240,240)'
   },
   browse: {
     flex: 0.5,
   },
-  navcontainer: {
-    backgroundColor: '#cfcfcf',
-  },
-  button: {
-    backgroundColor: 'grey',
-    height: 100,
-    width: 100
-  }
 });
-
-class LeftNavigation extends React.Component{
-  render() {
-    return (
-      <View style={styles.navcontainer}>
-        <TouchableHighlight style={styles.button} onPress={this.props.viewLibrary}>
-          <Text>Library</Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.button} onPress={this.props.browseSheetmusic}>
-          <Text>Browse</Text>
-        </TouchableHighlight>
-      </View>
-    );
-  }
-};
 
 var Main = React.createClass({
 
@@ -73,7 +52,7 @@ var Main = React.createClass({
 
     if (this.state.curView === 'library') {
       return (
-        <View style={styles.container}>
+        <View style={styles.containerDark}>
           <LeftNavigation browseSheetmusic={this.browseSheetmusic.bind(this)} viewLibrary={this.viewLibrary.bind(this)} />
           <Browse style={styles.browse} />
         </View>
@@ -81,7 +60,7 @@ var Main = React.createClass({
     } 
     else if (this.state.curView === 'browse') {
       return (
-        <View style={styles.container}>
+        <View style={styles.containerLight}>
           <LeftNavigation browseSheetmusic={this.browseSheetmusic.bind(this)} viewLibrary={this.viewLibrary.bind(this)} />
         </View>
       );
