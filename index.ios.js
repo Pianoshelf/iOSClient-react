@@ -18,14 +18,6 @@ var styles = StyleSheet.create({
     flex: 1,
     marginTop: 30,
   },
-  leftNav: {
-    flexDirection: 'row', 
-    backgroundColor: 'blue',
-    flex: 0.1,
-  },
-  browse: {
-    flex: 0.5,
-  },
 });
 
 var pianoshelf = React.createClass({

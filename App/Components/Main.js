@@ -1,8 +1,9 @@
 'use strict';
 
 var React = require('react-native');
-var Browse = require('./Browse');
+var Library = require('./Library');
 var LeftNavigation = require('./LeftNavigation');
+var Browse = require('./Browse');
 
 var {
   AppRegistry,
@@ -17,7 +18,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row', 
     flex: 1,
     marginTop: 30,
-    backgroundColor: 'rgb(70,70,70)'
+    backgroundColor: 'rgb(50,50,50)'
   },
   containerLight: {
     flexDirection: 'row', 
@@ -39,12 +40,10 @@ var Main = React.createClass({
   },
 
   viewLibrary() {
-    console.log("LIBRARY")
     this.setState({curView: 'library' })
   },
 
   browseSheetmusic() {
-    console.log("SHEETMUSIC")
     this.setState({curView: 'browse'})
   },
 
@@ -54,7 +53,7 @@ var Main = React.createClass({
       return (
         <View style={styles.containerDark}>
           <LeftNavigation browseSheetmusic={this.browseSheetmusic.bind(this)} viewLibrary={this.viewLibrary.bind(this)} />
-          <Browse style={styles.browse} />
+          <Library style={styles.browse} />
         </View>
       );
     } 
@@ -62,6 +61,7 @@ var Main = React.createClass({
       return (
         <View style={styles.containerLight}>
           <LeftNavigation browseSheetmusic={this.browseSheetmusic.bind(this)} viewLibrary={this.viewLibrary.bind(this)} />
+          <Browse />
         </View>
       );
     } 
