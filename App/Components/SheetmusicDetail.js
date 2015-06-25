@@ -11,14 +11,14 @@ var styles = StyleSheet.create({
 
 });
 
-class SheetmusicInfo extends React.Component {
+class SheetmusicDetail extends React.Component {
     render() {
         return (
-            <View style={styles.item}>
+            <View>
             
             </View>
         )
     }
 }
 
-module.exports = SheetmusicInfo;
+module.exports = SheetmusicDetail;

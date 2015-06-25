@@ -1,7 +1,7 @@
 var React = require('react-native');
 var API = require('../Utils/api');
 var Separator = require('./Helpers/Separator');
-var SheetmusicListItem = require('./SheetmusicListItem');
+var SheetmusicDetail = require('./SheetmusicDetail');
 
 var {
   ActivityIndicatorIOS,
@@ -12,23 +12,24 @@ var {
   TextInput,
   SwitchIOS,
   ListView,
-  TouchableHighlight
+  ScrollView,
+  TouchableHighlight,
+  NavigatorIOS
 } = React;
 
 var styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    flex: 1
+    flex: 1,
+    paddingTop: 45,
   },
   categorization: {
-    marginTop: 10,
-    marginLeft: 10,
     backgroundColor: 'rgb(240, 240, 240)',
     flex: 0.5,
+    paddingLeft: 5
   },
   sheetmusicList: {
     flex: 1,
-    backgroundColor: 'rgb(50, 50, 50)'
   },
   categoryHeadingFont: {
     fontSize: 16
@@ -54,27 +55,52 @@ var styles = StyleSheet.create({
     padding: 5,
     borderRadius: 3,
     alignItems: 'center',
-    height: 30
   },
   sortText: {
     alignSelf: 'center',
     color: 'white'
-  }
+  },
+  scrollView: {
+    flex: 1
+  },
+});
+
+var listItemStyles = StyleSheet.create({
+    item: {
+        marginTop: 3,
+        marginLeft: 5,
+        marginRight: 5,
+        paddingTop: 5,
+        paddingLeft: 5
+    },
+    titleText: {
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    composerText: {
+        color: 'rgb(80,80,80)',
+        paddingBottom: 5,
+        flex: 5
+    },
+    difficultyText: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 14,
+        padding: 2,
+    }
 });
 
 var Browse = React.createClass({
 
   getInitialState() {
     return {
-      sheetmusicDataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1.id !== r2.id
-      })
+      sheetmusicDataSource: []
     };
   },
 
   updateDataSource(data){
     this.setState({
-      sheetmusicDataSource: this.state.sheetmusicDataSource.cloneWithRows(data),
+      sheetmusicDataSource: data,
       isLoaded: true
     })
   },
@@ -86,8 +112,33 @@ var Browse = React.createClass({
     })
   },
 
-  _sheetmusicSelected() {
-    console.log("OK");
+  _showSheetmusicDetails(sheetmusic) {
+
+    this.props.navigator.push({
+      component: SheetmusicDetail,
+      title: sheetmusic.title,
+      passProps: {
+        sheetmusic: sheetmusic
+      }
+    })
+  },
+
+  _renderSheetmusicItem(sheetmusic) {
+      return (
+          <TouchableHighlight onPress={() => this._showSheetmusicDetails(sheetmusic)} underlayColor="rgba(0,0,0,.1)">
+          <View style={listItemStyles.item}>
+              <Text style={listItemStyles.titleText}>{ sheetmusic.title }</Text>
+              <View style={{marginTop: 5, flexDirection: 'row', display: 'flex'}}>
+                  <Text style={listItemStyles.composerText}>
+                      { sheetmusic.composer_name } &bull; { sheetmusic.view_count } views
+                  </Text>
+                  <View style={{backgroundColor: 'rgb(200,50,50)'}}>
+                      <Text style={listItemStyles.difficultyText}>Advanced</Text>
+                  </View>
+              </View>
+          </View>
+          </TouchableHighlight>
+      );
   },
 
   render() {
@@ -117,18 +168,33 @@ var Browse = React.createClass({
             </View>
           </View>
 
-          <ListView
-            dataSource={ this.state.sheetmusicDataSource } 
-            renderRow={(rowData) => 
-              <SheetmusicListItem  
-                sheetmusic={rowData}>
-              </SheetmusicListItem>}>
-          </ListView>
+          <ScrollView 
+          keyboardDismissMode="onDrag"
+          style={styles.scrollView}
+          automaticallyAdjustContentInsets={false}>
+            {this.state.sheetmusicDataSource.map((sheetmusic) => { return this._renderSheetmusicItem(sheetmusic) })}
+          </ScrollView>
+
         </View>
       </View>
       )
   }
-
 });
 
-module.exports = Browse;
+var BrowseWrapper = React.createClass({
+  render: function() {
+    return (
+      <NavigatorIOS
+        style={{
+          flexDirection: 'row', 
+          flex: 1,
+        }}
+        initialRoute={{
+          title: 'Browse Sheetmusic',
+          component: Browse 
+        }} />
+    );
+  }
+});
+
+module.exports = BrowseWrapper;

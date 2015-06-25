@@ -6,7 +6,7 @@ var Main = require('./App/Components/Main');
 
 var {
   AppRegistry,
-  NavigatorIOS,
+  Navigator,
   StyleSheet,
   Text,
   View
@@ -15,21 +15,14 @@ var {
 var styles = StyleSheet.create({
   container: {
     flexDirection: 'row', 
-    flex: 1,
-    marginTop: 30,
+    flex: 1
   },
 });
 
 var pianoshelf = React.createClass({
   render: function() {
     return (
-      <NavigatorIOS
-        style={styles.container}
-        navigationBarHidden = 'true'
-        initialRoute={{
-          title: 'Pianoshelf',
-          component: Main 
-        }} />
+      <Main/>
     );
   }
 });

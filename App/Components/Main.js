@@ -52,7 +52,7 @@ var Main = React.createClass({
     if (this.state.curView === 'library') {
       return (
         <View style={styles.containerDark}>
-          <LeftNavigation browseSheetmusic={this.browseSheetmusic.bind(this)} viewLibrary={this.viewLibrary.bind(this)} />
+          <LeftNavigation browseSheetmusic={this.browseSheetmusic} viewLibrary={this.viewLibrary.bind(this)} />
           <Library style={styles.browse} />
         </View>
       );
@@ -60,7 +60,7 @@ var Main = React.createClass({
     else if (this.state.curView === 'browse') {
       return (
         <View style={styles.containerLight}>
-          <LeftNavigation browseSheetmusic={this.browseSheetmusic.bind(this)} viewLibrary={this.viewLibrary.bind(this)} />
+          <LeftNavigation browseSheetmusic={this.browseSheetmusic.bind} viewLibrary={this.viewLibrary.bind(this)} />
           <Browse />
         </View>
       );
