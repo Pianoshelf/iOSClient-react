@@ -118,7 +118,7 @@ var Browse = React.createClass({
       component: SheetmusicDetail,
       title: sheetmusic.title,
       passProps: {
-        sheetmusic: sheetmusic
+        sheetmusicId: sheetmusic.id
       }
     })
   },

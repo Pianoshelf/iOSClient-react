@@ -70,7 +70,7 @@ var Library = React.createClass({
 
       return (
         <View style={ styles.loading }>
-          <Text style={ styles.loadingText }>Loading</Text>
+          <Text>Loading</Text>
           <ActivityIndicatorIOS />
         </View>
       )
