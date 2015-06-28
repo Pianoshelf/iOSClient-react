@@ -14,24 +14,6 @@ var {
   TouchableHighlight
 } = React;
 
-var styles = StyleSheet.create({
-  containerDark: {
-    flexDirection: 'row', 
-    flex: 1,
-    marginTop: 30,
-    backgroundColor: 'rgb(50,50,50)'
-  },
-  containerLight: {
-    flexDirection: 'row', 
-    flex: 1,
-    marginTop: 30,
-    backgroundColor: 'rgb(240,240,240)'
-  },
-  browse: {
-    flex: 0.5,
-  },
-});
-
 var Main = React.createClass({
 
   getInitialState() {
@@ -85,5 +67,22 @@ var Main = React.createClass({
   }
 });
 
-module.exports = Main;
+var styles = StyleSheet.create({
+  containerDark: {
+    flexDirection: 'row', 
+    flex: 1,
+    marginTop: 30,
+    backgroundColor: 'rgb(50,50,50)'
+  },
+  containerLight: {
+    flexDirection: 'row', 
+    flex: 1,
+    marginTop: 30,
+    backgroundColor: 'rgb(240,240,240)'
+  },
+  browse: {
+    flex: 0.5,
+  },
+});
 
+module.exports = Main;

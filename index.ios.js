@@ -12,19 +12,19 @@ var {
   View
 } = React;
 
-var styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row', 
-    flex: 1
-  },
-});
-
 var pianoshelf = React.createClass({
   render: function() {
     return (
       <Main/>
     );
   }
+});
+
+var styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row', 
+    flex: 1
+  },
 });
 
 AppRegistry.registerComponent('pianoshelf', () => pianoshelf);

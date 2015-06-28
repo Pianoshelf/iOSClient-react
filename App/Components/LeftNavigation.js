@@ -9,17 +9,6 @@ var {
   TouchableHighlight
 } = React;
 
-var styles = StyleSheet.create({
-  navcontainer: {
-    backgroundColor: 'rgb(40,40,40)',
-  },
-  button: {
-    backgroundColor: 'grey',
-    height: 100,
-    width: 100
-  }
-});
-
 class LeftNavigation extends React.Component{
   render() {
     return (
@@ -34,5 +23,16 @@ class LeftNavigation extends React.Component{
     );
   }
 };
+
+var styles = StyleSheet.create({
+  navcontainer: {
+    backgroundColor: 'rgb(40,40,40)',
+  },
+  button: {
+    backgroundColor: 'grey',
+    height: 100,
+    width: 100
+  }
+});
 
 module.exports = LeftNavigation;

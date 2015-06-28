@@ -8,6 +8,20 @@ var {
   Image
 } = React;
 
+class Thumbnail extends React.Component {
+    prepareTitle(sheetmusic) {
+        return `${sheetmusic.title} by ${sheetmusic.composer_name}`;
+    }
+    render() {
+        return (
+            <View style={styles.item}>
+                <Image style={styles.image} source={{uri: 'http:'+this.props.sheetmusic.thumbnail_url }} />
+                <Text style={styles.sheetmusicText}>{ this.prepareTitle(this.props.sheetmusic) }</Text>
+            </View>
+        )
+    }
+}
+
 var styles = StyleSheet.create({
     item: {
         margin: 10,
@@ -24,19 +38,5 @@ var styles = StyleSheet.create({
         color: 'white'
     }
 });
-
-class Thumbnail extends React.Component {
-    prepareTitle(sheetmusic) {
-        return `${sheetmusic.title} by ${sheetmusic.composer_name}`;
-    }
-    render() {
-        return (
-            <View style={styles.item}>
-                <Image style={styles.image} source={{uri: 'http:'+this.props.sheetmusic.thumbnail_url }} />
-                <Text style={styles.sheetmusicText}>{ this.prepareTitle(this.props.sheetmusic) }</Text>
-            </View>
-        )
-    }
-}
 
 module.exports = Thumbnail;

@@ -14,58 +14,6 @@ var {
   TouchableHighlight
 } = React;
 
-var styles = StyleSheet.create({
-  container: {
-    marginTop: 45
-  },
-  item: {
-    margin: 10,
-    padding: 5,
-    width: 300
-  },
-  loading: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  textTitle: {
-    paddingTop: 5,
-    paddingLeft: 5,
-    fontWeight: 'bold',
-    fontSize: 28
-  },
-  textSubheading: {
-    paddingLeft: 5,
-    paddingTop: 2,
-    fontSize: 22,
-    color: 'rgb(50,50,50)'
-  },
-  sheetmusicImage: {
-    width: 350,
-    height: 450
-  },
-  box: {
-    borderColor: 'rgb(220,220,220)',
-    borderWidth: 1,
-    padding: 5,
-    margin: 15,
-    shadowColor: 'rgb(200,200,200)',
-    shadowOffset: {width: 5, height: 5},
-    shadowOpacity: 5,
-    shadowRadius: 5
-  },
-  button: {
-    padding: 5, 
-    width: 120
-  },
-  downloadButton: {
-    backgroundColor: 'rgb(80,180,80)', 
-  },
-  removeButton: {
-    backgroundColor: 'rgb(180,80,80)', 
-  },
-});
-
 var SheetmusicDetail = React.createClass({
 
   getInitialState() {
@@ -156,6 +104,58 @@ var SheetmusicDetail = React.createClass({
       )
     }
   }
+});
+
+var styles = StyleSheet.create({
+  container: {
+    marginTop: 45
+  },
+  item: {
+    margin: 10,
+    padding: 5,
+    width: 300
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  textTitle: {
+    paddingTop: 5,
+    paddingLeft: 5,
+    fontWeight: 'bold',
+    fontSize: 28
+  },
+  textSubheading: {
+    paddingLeft: 5,
+    paddingTop: 2,
+    fontSize: 22,
+    color: 'rgb(50,50,50)'
+  },
+  sheetmusicImage: {
+    width: 350,
+    height: 450
+  },
+  box: {
+    borderColor: 'rgb(220,220,220)',
+    borderWidth: 1,
+    padding: 5,
+    margin: 15,
+    shadowColor: 'rgb(200,200,200)',
+    shadowOffset: {width: 5, height: 5},
+    shadowOpacity: 5,
+    shadowRadius: 5
+  },
+  button: {
+    padding: 5, 
+    width: 120
+  },
+  downloadButton: {
+    backgroundColor: 'rgb(80,180,80)', 
+  },
+  removeButton: {
+    backgroundColor: 'rgb(180,80,80)', 
+  },
 });
 
 module.exports = SheetmusicDetail;

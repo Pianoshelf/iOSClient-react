@@ -8,23 +8,6 @@ var {
   TouchableHighlight
 } = React;
 
-var styles = StyleSheet.create({
-    loginButton: {
-        paddingTop: 15,
-        paddingBottom: 15,
-        alignSelf: 'center',
-        width: 400,
-        borderColor: 'rgb(240,240,240)',
-        borderWidth: 1,
-        shadowColor: 'rgb(240,240,240)',
-        shadowOffset: {width: 2, height: 2},
-        shadowOpacity: 3,
-        shadowRadius: 1,
-        alignItems: 'center',
-        marginTop: 10
-    },
-});
-
 var LoginModal = React.createClass({
   render() {
     return(
@@ -53,6 +36,23 @@ var LoginModal = React.createClass({
         </View>
       </Modal>
     )}
+});
+
+var styles = StyleSheet.create({
+    loginButton: {
+        paddingTop: 15,
+        paddingBottom: 15,
+        alignSelf: 'center',
+        width: 400,
+        borderColor: 'rgb(240,240,240)',
+        borderWidth: 1,
+        shadowColor: 'rgb(240,240,240)',
+        shadowOffset: {width: 2, height: 2},
+        shadowOpacity: 3,
+        shadowRadius: 1,
+        alignItems: 'center',
+        marginTop: 10
+    },
 });
 
 module.exports = LoginModal;
