@@ -27,5 +27,4 @@ var pianoshelf = React.createClass({
   }
 });
 
-
 AppRegistry.registerComponent('pianoshelf', () => pianoshelf);

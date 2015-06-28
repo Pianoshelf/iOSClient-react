@@ -1,7 +1,6 @@
 var React = require('react-native');
 var Separator = require('./Helpers/Separator');
 var SheetmusicDetail = require('./SheetmusicDetail');
-var API = require('../Api/api');
 
 var AppActions = require('../Actions/AppActions');
 var SheetmusicStore = require('../Stores/SheetmusicStore');
@@ -105,11 +104,7 @@ var Browse = React.createClass({
   componentWillMount() {
     // Add change listeners to stores
     SheetmusicStore.addChangeListener(this._updateDataSourceFromStore.bind(this));
-
-    API.getSheetmusicList()
-    .then((res) => {
-      AppActions.receiveSheetmusicData(res.results);
-    });
+    AppActions.receiveInitialSheetmusicData();
 
     this._updateDataSourceFromStore();
   },
