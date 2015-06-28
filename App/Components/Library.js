@@ -1,6 +1,9 @@
 var React = require('react-native');
 var SheetmusicThumbnail = require('./SheetmusicThumbnail');
-var API = require('../Api/api');
+var API = require('../Util/Api');
+
+var AppActions = require('../Actions/AppActions');
+var SheetmusicLibraryStore = require('../Stores/SheetmusicLibraryStore');
 
 var {
   ActivityIndicatorIOS,
@@ -9,60 +12,38 @@ var {
   Image,
   StyleSheet,
   ListView,
+  ScrollView,
   TextInput,
   TouchableHighlight
 } = React;
 
-var styles = StyleSheet.create({
-    list: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        width: 672
-    },
-    loading: {
-      flex: 1,
-      backgroundColor: 'rgb(50,50,50)',
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
-
-    item: {
-        margin: 10,
-    },
-    image: {
-        width: 200,
-        height: 300
-    },
-    sheetmusicText: {
-        fontSize: 18,
-        marginTop: 5,
-        color: 'white'
-    }
-});
-
-
 var Library = React.createClass({
   getInitialState() {
     return {
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1.id !== r2.id
-      }),
+      sheetmusicLibrary: [],
       isLoaded: false
     };
   },
 
-  updateDataSource(data){
+  _updateDataSourceFromStore(){
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(data),
+      sheetmusicLibrary: SheetmusicLibraryStore.getState(),
       isLoaded: true
     })
   },
 
   componentWillMount() {
-    API.getSheetmusicList('popular', 1, 5)
-    .then((res) => {
-      this.updateDataSource(res.results);
-    })
+    // Add change listeners to stores
+    SheetmusicLibraryStore.addChangeListener(this._updateDataSourceFromStore);
+
+    AppActions.initializeSheetmusicLibrary();
+
+    this._updateDataSourceFromStore();
+  },
+
+  componentWillUnmount() {
+    // Remove change listers from stores
+    SheetmusicLibraryStore.removeChangeListener(this._updateDataSourceFromStore);
   },
 
   render() {
@@ -84,10 +65,9 @@ var Library = React.createClass({
           onChangeText={(text) => this.setState({input: text})}>
           </TextInput>
 
-          <ListView contentContainerStyle={styles.list}
-            dataSource={ this.state.dataSource } 
-            renderRow={(rowData) => <SheetmusicThumbnail sheetmusic={rowData}></SheetmusicThumbnail>}>
-          </ListView>
+          <ScrollView contentContainerStyle={styles.list}>
+            {this.state.sheetmusicLibrary.map((sheetmusic) => { return <SheetmusicThumbnail sheetmusic={sheetmusic}></SheetmusicThumbnail> })}
+          </ScrollView>
 
           <View style={{alignSelf: 'flex-end', flexDirection: 'row', paddingBottom: 20, paddingRight: 25}}>
             <Text style={{color: 'white', fontSize: 20, padding: 10}}>Have an account?</Text> 
@@ -100,6 +80,32 @@ var Library = React.createClass({
     }
   }
 
+});
+
+var styles = StyleSheet.create({
+    list: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        width: 672
+    },
+    loading: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+
+    item: {
+        margin: 10,
+    },
+    image: {
+        width: 200,
+        height: 300
+    },
+    sheetmusicText: {
+        fontSize: 18,
+        marginTop: 5,
+        color: 'white'
+    }
 });
 
 module.exports = Library;

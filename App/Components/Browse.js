@@ -13,84 +13,10 @@ var {
   StyleSheet,
   TextInput,
   SwitchIOS,
-  ListView,
   ScrollView,
   TouchableHighlight,
   NavigatorIOS
 } = React;
-
-var styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    flex: 1,
-    paddingTop: 45,
-  },
-  categorization: {
-    backgroundColor: 'rgb(240, 240, 240)',
-    flex: 0.5,
-    paddingLeft: 5
-  },
-  sheetmusicList: {
-    flex: 1,
-  },
-  categoryHeadingFont: {
-    fontSize: 16
-  },
-  category: {
-    flexDirection: 'row',
-    marginTop: 5
-  },
-  categoryTag: {
-    marginTop: 5,
-    marginLeft: 3,
-    fontSize: 15
-  },
-  flowRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'stretch',
-    justifyContent: 'flex-end',
-    padding: 5
-  },
-  sortBackground: {
-    backgroundColor: 'rgb(120,120,120)',
-    padding: 5,
-    borderRadius: 3,
-    alignItems: 'center',
-  },
-  sortText: {
-    alignSelf: 'center',
-    color: 'white'
-  },
-  scrollView: {
-    flex: 1
-  },
-});
-
-var listItemStyles = StyleSheet.create({
-    item: {
-        marginTop: 3,
-        marginLeft: 5,
-        marginRight: 5,
-        paddingTop: 5,
-        paddingLeft: 5,
-    },
-    titleText: {
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-    composerText: {
-        color: 'rgb(80,80,80)',
-        paddingBottom: 5,
-        flex: 5
-    },
-    difficultyText: {
-        color: 'white',
-        fontWeight: 'bold',
-        fontSize: 14,
-        padding: 2
-    }
-});
 
 var Browse = React.createClass({
 
@@ -103,7 +29,7 @@ var Browse = React.createClass({
 
   componentWillMount() {
     // Add change listeners to stores
-    SheetmusicStore.addChangeListener(this._updateDataSourceFromStore.bind(this));
+    SheetmusicStore.addChangeListener(this._updateDataSourceFromStore);
 
     // Initial options
     options = {
@@ -119,7 +45,7 @@ var Browse = React.createClass({
 
   componentWillUnmount() {
     // Remove change listers from stores
-    SheetmusicStore.removeChangeListener(this._updateDataSourceFromStore.bind(this));
+    SheetmusicStore.removeChangeListener(this._updateDataSourceFromStore);
   },
 
   _updateDataSourceFromStore(){
@@ -213,6 +139,79 @@ var BrowseWrapper = React.createClass({
         }} />
     );
   }
+});
+
+var styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    flex: 1,
+    paddingTop: 45,
+  },
+  categorization: {
+    backgroundColor: 'rgb(240, 240, 240)',
+    flex: 0.5,
+    paddingLeft: 5
+  },
+  sheetmusicList: {
+    flex: 1,
+  },
+  categoryHeadingFont: {
+    fontSize: 16
+  },
+  category: {
+    flexDirection: 'row',
+    marginTop: 5
+  },
+  categoryTag: {
+    marginTop: 5,
+    marginLeft: 3,
+    fontSize: 15
+  },
+  flowRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    justifyContent: 'flex-end',
+    padding: 5
+  },
+  sortBackground: {
+    backgroundColor: 'rgb(120,120,120)',
+    padding: 5,
+    borderRadius: 3,
+    alignItems: 'center',
+  },
+  sortText: {
+    alignSelf: 'center',
+    color: 'white'
+  },
+  scrollView: {
+    flex: 1
+  },
+});
+
+var listItemStyles = StyleSheet.create({
+    item: {
+        marginTop: 3,
+        marginLeft: 5,
+        marginRight: 5,
+        paddingTop: 5,
+        paddingLeft: 5,
+    },
+    titleText: {
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    composerText: {
+        color: 'rgb(80,80,80)',
+        paddingBottom: 5,
+        flex: 5
+    },
+    difficultyText: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 14,
+        padding: 2
+    }
 });
 
 module.exports = BrowseWrapper;

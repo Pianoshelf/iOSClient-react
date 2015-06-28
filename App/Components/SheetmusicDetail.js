@@ -1,7 +1,9 @@
 'use strict';
 
 var React = require('react-native');
-var API = require('../Api/api');
+var API = require('../Util/Api');
+var AppActions = require('../Actions/AppActions');
+var SheetmusicLibraryStore = require('../Stores/SheetmusicLibraryStore');
 
 var {
   Text,
@@ -23,7 +25,6 @@ var styles = StyleSheet.create({
   },
   loading: {
     flex: 1,
-    backgroundColor: 'rgb(50,50,50)',
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -53,11 +54,16 @@ var styles = StyleSheet.create({
     shadowOpacity: 5,
     shadowRadius: 5
   },
-  downloadButton: {
-    backgroundColor: 'rgb(80,180,80)', 
+  button: {
     padding: 5, 
     width: 120
-  }
+  },
+  downloadButton: {
+    backgroundColor: 'rgb(80,180,80)', 
+  },
+  removeButton: {
+    backgroundColor: 'rgb(180,80,80)', 
+  },
 });
 
 var SheetmusicDetail = React.createClass({
@@ -68,8 +74,15 @@ var SheetmusicDetail = React.createClass({
       isLoaded: false
     };
   },
+
+  _updateDataSourceFromStore(){
+    this.setState({
+
+    })
+  },
+
   componentWillMount() {
-    console.log(this.props.sheetmusicId);
+    SheetmusicLibraryStore.addChangeListener(this._updateDataSourceFromStore);
 
     API.getSheetmusicDetails(this.props.sheetmusicId)
     .then((sheetmusic) => {
@@ -80,6 +93,38 @@ var SheetmusicDetail = React.createClass({
       })
     });
   },
+
+  removeSheetmusicFromLibrary() {
+    AppActions.removeSheetmusicFromLibrary(this.state.sheetmusic.id) 
+  },
+
+  addSheetmusicToLibrary() {
+    AppActions.addSheetmusicToLibrary(this.state.sheetmusic)
+  },
+
+  _downloadOrRemoveButton() {
+    
+    if (SheetmusicLibraryStore.hasSheetmusicWithId(this.state.sheetmusic.id)) {
+      return (
+          <TouchableHighlight 
+            underlayColor="rgba(80,180,80,.5)" 
+            onPress={() => this.removeSheetmusicFromLibrary()} 
+            style={[styles.button,styles.removeButton]}>
+            <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>Remove</Text>
+          </TouchableHighlight>
+        )
+    } else {
+      return (
+          <TouchableHighlight 
+            underlayColor="rgba(80,180,80,.5)" 
+            onPress={() => this.addSheetmusicToLibrary()} 
+            style={[styles.button, styles.downloadButton]}>
+            <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>Download</Text>
+          </TouchableHighlight>
+        )
+    }
+  },
+
   render() {
     if (!this.state.isLoaded) {
       return (
@@ -103,9 +148,7 @@ var SheetmusicDetail = React.createClass({
                 <Text style={{fontSize: 18}}>{ this.state.sheetmusic.view_count }</Text>
                 <Text style={{fontSize: 18}}>{ this.state.sheetmusic.key }</Text>
                 <Text style={{fontSize: 18, flex: 1, flexWrap: 'wrap', width: 200}}>{ this.state.sheetmusic.license }</Text>
-                <TouchableHighlight underlayColor="rgba(80,180,80,.5)" style={styles.downloadButton}>
-                  <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>Download</Text>
-                </TouchableHighlight>
+                {this._downloadOrRemoveButton()}
               </View>
             </View>
           </View>
