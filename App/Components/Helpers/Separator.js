@@ -8,9 +8,8 @@ var {
 var styles = StyleSheet.create({
   separator: {
     height: 1,
-    marginRight: 15,
-    marginTop: 2,
-    backgroundColor: 'rgb(150,150,150)',
+    marginBottom: 2,
+    backgroundColor: 'rgb(220,220,220)',
   },
 });
 

@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var API = require('../Utils/api');
+var API = require('../Api/api');
 
 var {
   Text,
@@ -31,15 +31,15 @@ var styles = StyleSheet.create({
     paddingTop: 5,
     paddingLeft: 5,
     fontWeight: 'bold',
-    fontSize: 25
+    fontSize: 28
   },
   textSubheading: {
     paddingLeft: 5,
     paddingTop: 2,
-    fontSize: 20,
+    fontSize: 22,
     color: 'rgb(50,50,50)'
   },
-  image: {
+  sheetmusicImage: {
     width: 350,
     height: 450
   },
@@ -94,16 +94,16 @@ var SheetmusicDetail = React.createClass({
           <View style={styles.box}>
             <Text style={styles.textTitle}>{ this.state.sheetmusic.title }</Text>
             <Text style={styles.textSubheading}>{ this.state.sheetmusic.composer_name }</Text>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', marginTop: 10}}>
               <View>
-                <Image style={styles.image} source={{uri: 'http:'+this.state.sheetmusic.thumbnail_url }} />
+                <Image style={styles.sheetmusicImage} source={{uri: 'http:'+this.state.sheetmusic.thumbnail_url }} />
               </View>
               <View>
                 <Text style={{fontSize: 18}}>{ this.state.sheetmusic.submitted_by }</Text>
                 <Text style={{fontSize: 18}}>{ this.state.sheetmusic.view_count }</Text>
                 <Text style={{fontSize: 18}}>{ this.state.sheetmusic.key }</Text>
-                <Text style={{fontSize: 18}}>{ this.state.sheetmusic.license }</Text>
-                <TouchableHighlight underlayColor="rgba(0,0,0,.1)" style={styles.downloadButton}>
+                <Text style={{fontSize: 18, flex: 1, flexWrap: 'wrap', width: 200}}>{ this.state.sheetmusic.license }</Text>
+                <TouchableHighlight underlayColor="rgba(80,180,80,.5)" style={styles.downloadButton}>
                   <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>Download</Text>
                 </TouchableHighlight>
               </View>

@@ -1,7 +1,10 @@
 var React = require('react-native');
-var API = require('../Utils/api');
 var Separator = require('./Helpers/Separator');
 var SheetmusicDetail = require('./SheetmusicDetail');
+var API = require('../Api/api');
+
+var AppActions = require('../Actions/AppActions');
+var SheetmusicStore = require('../Stores/SheetmusicStore');
 
 var {
   ActivityIndicatorIOS,
@@ -71,7 +74,7 @@ var listItemStyles = StyleSheet.create({
         marginLeft: 5,
         marginRight: 5,
         paddingTop: 5,
-        paddingLeft: 5
+        paddingLeft: 5,
     },
     titleText: {
         fontWeight: 'bold',
@@ -86,7 +89,7 @@ var listItemStyles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         fontSize: 14,
-        padding: 2,
+        padding: 2
     }
 });
 
@@ -94,21 +97,32 @@ var Browse = React.createClass({
 
   getInitialState() {
     return {
-      sheetmusicDataSource: []
+      sheetmusicDataSource: [],
+      isLoaded: false
     };
   },
 
-  updateDataSource(data){
-    this.setState({
-      sheetmusicDataSource: data,
-      isLoaded: true
-    })
-  },
-
   componentWillMount() {
+    // Add change listeners to stores
+    SheetmusicStore.addChangeListener(this._updateDataSourceFromStore.bind(this));
+
     API.getSheetmusicList()
     .then((res) => {
-      this.updateDataSource(res.results);
+      AppActions.receiveSheetmusicData(res.results);
+    });
+
+    this._updateDataSourceFromStore();
+  },
+
+  componentWillUnmount() {
+    // Remove change listers from stores
+    SheetmusicStore.removeChangeListener(this._updateDataSourceFromStore.bind(this));
+  },
+
+  _updateDataSourceFromStore(){
+    this.setState({
+      sheetmusicDataSource: SheetmusicStore.getState(),
+      isLoaded: true
     })
   },
 
@@ -136,6 +150,7 @@ var Browse = React.createClass({
                       <Text style={listItemStyles.difficultyText}>Advanced</Text>
                   </View>
               </View>
+          <Separator/>
           </View>
           </TouchableHighlight>
       );
@@ -190,7 +205,7 @@ var BrowseWrapper = React.createClass({
           flex: 1,
         }}
         initialRoute={{
-          title: 'Browse Sheetmusic',
+          title: 'Browse',
           component: Browse 
         }} />
     );

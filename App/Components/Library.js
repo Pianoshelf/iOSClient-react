@@ -1,6 +1,6 @@
 var React = require('react-native');
 var SheetmusicThumbnail = require('./SheetmusicThumbnail');
-var API = require('../Utils/api');
+var API = require('../Api/api');
 
 var {
   ActivityIndicatorIOS,
