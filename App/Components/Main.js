@@ -4,6 +4,7 @@ var React = require('react-native');
 var Library = require('./Library');
 var LeftNavigation = require('./LeftNavigation');
 var Browse = require('./Browse');
+var LoginModal = require('./LoginModal');
 
 var {
   AppRegistry,
@@ -35,12 +36,21 @@ var Main = React.createClass({
 
   getInitialState() {
     return {
-      curView: 'library'
+      curView: 'library',
+      isModalOpen: false
     };
   },
 
+  openLoginModal() {
+    this.setState({isModalOpen: true});
+  },
+ 
+  closeLoginModal() {
+    this.setState({isModalOpen: false});
+  },
+
   viewLibrary() {
-    this.setState({curView: 'library' })
+    this.setState({curView: 'library'})
   },
 
   browseSheetmusic() {
@@ -53,7 +63,8 @@ var Main = React.createClass({
       return (
         <View style={styles.containerDark}>
           <LeftNavigation browseSheetmusic={this.browseSheetmusic} viewLibrary={this.viewLibrary.bind(this)} />
-          <Library style={styles.browse} />
+          <Library style={styles.browse} openLoginModal={this.openLoginModal.bind(this)} />
+          <LoginModal isModalOpen={this.state.isModalOpen} closeLoginModal={this.closeLoginModal.bind(this)}/>
         </View>
       );
     } 
@@ -62,6 +73,7 @@ var Main = React.createClass({
         <View style={styles.containerLight}>
           <LeftNavigation browseSheetmusic={this.browseSheetmusic.bind} viewLibrary={this.viewLibrary.bind(this)} />
           <Browse />
+          <LoginModal isModalOpen={this.state.isModalOpen} closeLoginModal={this.closeLoginModal.bind(this)} openLoginModal={this.openLoginModal.bind(this)}/>
         </View>
       );
     } 

@@ -104,7 +104,15 @@ var Browse = React.createClass({
   componentWillMount() {
     // Add change listeners to stores
     SheetmusicStore.addChangeListener(this._updateDataSourceFromStore.bind(this));
-    AppActions.receiveInitialSheetmusicData();
+
+    // Initial options
+    options = {
+      orderBy: 'popular', // popular, new 
+      page: 1,
+      pageSize: 15
+    }
+
+    AppActions.receiveInitialSheetmusicData(options);
 
     this._updateDataSourceFromStore();
   },

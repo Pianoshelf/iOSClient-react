@@ -3,9 +3,9 @@ var AppConstants  = require('../Constants/AppConstants');
 var API           = require('../Api/api');
 
 module.exports = {
-  receiveInitialSheetmusicData() {
+  receiveInitialSheetmusicData(options) {
 
-    API.getSheetmusicList()
+    API.getSheetmusicList(options.orderBy, options.page, options.pageSize)
     .then((res) => {
       dispatcher.handleViewAction({
         actionType: AppConstants.RECEIVE_SHEETMUSIC_DATA,

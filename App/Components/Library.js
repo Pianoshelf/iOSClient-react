@@ -9,7 +9,8 @@ var {
   Image,
   StyleSheet,
   ListView,
-  TextInput
+  TextInput,
+  TouchableHighlight
 } = React;
 
 var styles = StyleSheet.create({
@@ -58,7 +59,7 @@ var Library = React.createClass({
   },
 
   componentWillMount() {
-    API.getSheetmusicList()
+    API.getSheetmusicList('popular', 1, 5)
     .then((res) => {
       this.updateDataSource(res.results);
     })
@@ -87,6 +88,13 @@ var Library = React.createClass({
             dataSource={ this.state.dataSource } 
             renderRow={(rowData) => <SheetmusicThumbnail sheetmusic={rowData}></SheetmusicThumbnail>}>
           </ListView>
+
+          <View style={{alignSelf: 'flex-end', flexDirection: 'row', paddingBottom: 20, paddingRight: 25}}>
+            <Text style={{color: 'white', fontSize: 20, padding: 10}}>Have an account?</Text> 
+            <TouchableHighlight style={{backgroundColor: 'rgb(100,100,100)', padding: 10}} onPress={this.props.openLoginModal}>
+              <Text style={{color: 'white', fontSize: 20}}>Log In</Text>
+            </TouchableHighlight>
+          </View>
         </View>
       )
     }
