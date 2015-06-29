@@ -17,15 +17,15 @@ var images = [
         "http://sheetmusic.pianoshelf.com/sheetmusicimg/Chopin-Prelude-op-28-no-8-page4-51c90bd6b2e20.jpg"
 ];
 
-var Main = React.createClass({
+var SheetmusicViewer = React.createClass({
   _sheetmusicImage(uri) {
     return (
       <ScrollView
         maximumZoomScale={2.0}
         minimumZoomScale={1.0}
         style={styles.imgWrap}>
-        <Image style={styles.img} 
-        resizeMode={Image.resizeMode.stretch} source={{uri : uri}} />
+        <View><Image style={styles.img} 
+        resizeMode={Image.resizeMode.stretch} source={{uri : uri}} /></View>
       </ScrollView>
     );
   },
@@ -48,6 +48,7 @@ var Main = React.createClass({
 
 var styles = StyleSheet.create({
   scrollView: {
+    flex: 1,
     backgroundColor: '#6A85B1',
   },
   horizontalScrollView: {
@@ -59,7 +60,10 @@ var styles = StyleSheet.create({
     height: 1020
   },
   img: {
+    flex: 1,
     width: 700,
     height: 930,
   }
 });
+
+module.exports = SheetmusicViewer;
