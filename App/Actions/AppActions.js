@@ -50,4 +50,47 @@ module.exports = {
     });
   },
 
+  // User
+
+  loadUser() {
+    StorageWrapper.getUser()
+    .then((value) => {
+
+      var user = null;
+      if (value !== null) {
+        user = JSON.parse(value);
+      }
+
+      dispatcher.handleViewAction({
+        actionType: AppConstants.LOAD_USER,
+        data: user,
+      });
+    })
+  },
+
+  skipLogin() {
+    StorageWrapper.setUser('Anonymous', null)
+    .then(function() {
+
+      var user = {
+        username: 'Anonymous',
+        password: null
+      }
+
+      dispatcher.handleViewAction({
+        actionType: AppConstants.SKIP_LOGIN,
+        data: user
+      });
+    });
+  },
+
+  // Login Modal
+
+  toggleLoginModal(loginModalOpen) {
+    dispatcher.handleViewAction({
+      actionType: AppConstants.TOGGLE_LOGIN_MODAL,
+      loginModalOpen: loginModalOpen
+    });
+  }
+
 };

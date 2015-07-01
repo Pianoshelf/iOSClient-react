@@ -8,4 +8,9 @@ module.exports = keyMirror({
 
   RECEIVE_SHEETMUSIC_DATA: true,        // Loads initial sheetmusic list.
   DOWNLOAD_SHEETMUSIC: true,            // Downloads sheetmusic onto local storage. 
+
+  LOAD_USER: true,
+  SKIP_LOGIN: true,
+
+  TOGGLE_LOGIN_MODAL: true,
 });
