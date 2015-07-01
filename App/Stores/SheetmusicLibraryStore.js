@@ -1,9 +1,9 @@
 'use strict';
 
-var createStore   = require('flux-util').createStore;
-var dispatcher    = require('../../AppDispatcher');
-var AppConstants  = require('../Constants/AppConstants');
-var Library       = require('../Util/Library');
+var createStore    = require('flux-util').createStore;
+var dispatcher     = require('../../AppDispatcher');
+var AppConstants   = require('../Constants/AppConstants');
+var StorageWrapper = require('../Util/StorageWrapper');
 
 var _sheetmusicLibrary = [];
 
@@ -37,7 +37,7 @@ var store = createStore({
         var sheetmusic = action.data;
         _sheetmusicLibrary.push(sheetmusic);
 
-        Library.setSheetmusic(_sheetmusicLibrary)
+        StorageWrapper.setSheetmusic(_sheetmusicLibrary)
         .then(() => { store.emitChange(action) });
         break;
 
@@ -47,7 +47,7 @@ var store = createStore({
           return el.id !== removeSheetmusicId;
         })
 
-        Library.setSheetmusic(_sheetmusicLibrary)
+        StorageWrapper.setSheetmusic(_sheetmusicLibrary)
         .then(() => { store.emitChange(action) });
         break;
     }

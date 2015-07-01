@@ -10,22 +10,35 @@ var {
   ScrollView
 } = React;
 
-var images = [
-        "http://sheetmusic.pianoshelf.com/sheetmusicimg/Chopin-Prelude-op-28-no-8-page1-51c90bd3a19ca.jpg",
-        "http://sheetmusic.pianoshelf.com/sheetmusicimg/Chopin-Prelude-op-28-no-8-page2-51c90bd4aefbb.jpg",
-        "http://sheetmusic.pianoshelf.com/sheetmusicimg/Chopin-Prelude-op-28-no-8-page3-51c90bd5af0fc.jpg",
-        "http://sheetmusic.pianoshelf.com/sheetmusicimg/Chopin-Prelude-op-28-no-8-page4-51c90bd6b2e20.jpg"
-];
 
 var SheetmusicViewer = React.createClass({
+
+  getInitialState() {
+    return {
+      images: []
+    };
+  },
+
+  componentWillMount() {
+    var images = this.props.sheetmusic.images.map( imgUrl => {
+      return `http:${imgUrl}`;
+    });
+    this.setState({
+      images: images
+    });
+  },
+
   _sheetmusicImage(uri) {
     return (
       <ScrollView
         maximumZoomScale={2.0}
         minimumZoomScale={1.0}
         style={styles.imgWrap}>
-        <View><Image style={styles.img} 
-        resizeMode={Image.resizeMode.stretch} source={{uri : uri}} /></View>
+        <View>
+          <Image style={styles.img} 
+          resizeMode={Image.resizeMode.stretch} 
+          source={{uri : uri}} />
+        </View>
       </ScrollView>
     );
   },
@@ -40,7 +53,7 @@ var SheetmusicViewer = React.createClass({
         automaticallyAdjustContentInsets={true}
         pagingEnabled={true}
         style={[styles.scrollView, styles.horizontalScrollView]}>
-        {images.map( (uri, i) => this._sheetmusicImage(uri) )}
+        {this.state.images.map( (uri, i) => this._sheetmusicImage(uri) )}
       </ScrollView>
      )
   }
@@ -49,14 +62,14 @@ var SheetmusicViewer = React.createClass({
 var styles = StyleSheet.create({
   scrollView: {
     flex: 1,
-    backgroundColor: '#6A85B1',
+    backgroundColor: 'rgb(50,50,50)',
   },
   horizontalScrollView: {
   },
   imgWrap: {
     borderColor: 'rgb(240,240,240)',
     borderWidth: 0,
-    padding: 32,
+    padding: 33,
     height: 1020
   },
   img: {

@@ -1,8 +1,9 @@
+'use strict';
+
+var AppActions = require('../Actions/AppActions');
 var React = require('react-native');
 var Separator = require('./Helpers/Separator');
 var SheetmusicDetail = require('./SheetmusicDetail');
-
-var AppActions = require('../Actions/AppActions');
 var SheetmusicStore = require('../Stores/SheetmusicStore');
 
 var {
@@ -32,7 +33,7 @@ var Browse = React.createClass({
     SheetmusicStore.addChangeListener(this._updateDataSourceFromStore);
 
     // Initial options
-    options = {
+    var options = {
       orderBy: 'popular', // popular, new 
       page: 1,
       pageSize: 15
@@ -71,7 +72,7 @@ var Browse = React.createClass({
           <TouchableHighlight onPress={() => this._showSheetmusicDetails(sheetmusic)} underlayColor="rgba(0,0,0,.1)">
           <View style={listItemStyles.item}>
               <Text style={listItemStyles.titleText}>{ sheetmusic.title }</Text>
-              <View style={{marginTop: 5, flexDirection: 'row', display: 'flex'}}>
+              <View style={{marginTop: 5, flexDirection: 'row'}}>
                   <Text style={listItemStyles.composerText}>
                       { sheetmusic.composer_name } &bull; { sheetmusic.view_count } views
                   </Text>
@@ -146,6 +147,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     paddingTop: 45,
+    backgroundColor: 'white'
   },
   categorization: {
     backgroundColor: 'rgb(240, 240, 240)',

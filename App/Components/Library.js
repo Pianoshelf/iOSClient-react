@@ -1,9 +1,10 @@
-var React = require('react-native');
-var SheetmusicThumbnail = require('./SheetmusicThumbnail');
-var API = require('../Util/Api');
-
-var AppActions = require('../Actions/AppActions');
-var SheetmusicLibraryStore = require('../Stores/SheetmusicLibraryStore');
+var API                     = require('../Util/Api');
+var AppActions              = require('../Actions/AppActions');
+var Browse                  = require('./Browse');
+var React                   = require('react-native');
+var SheetmusicDetail        = require('./SheetmusicDetail');
+var SheetmusicLibraryStore  = require('../Stores/SheetmusicLibraryStore');
+var SheetmusicViewer        = require('./SheetmusicViewer');
 
 var {
   ActivityIndicatorIOS,
@@ -14,7 +15,9 @@ var {
   ListView,
   ScrollView,
   TextInput,
-  TouchableHighlight
+  TouchableHighlight,
+  Navigator,
+  NavigatorIOS
 } = React;
 
 var Library = React.createClass({
@@ -46,6 +49,31 @@ var Library = React.createClass({
     SheetmusicLibraryStore.removeChangeListener(this._updateDataSourceFromStore);
   },
 
+  _showSheetmusicDetails(sheetmusic) {
+    this.props.navigator.push({
+      component: SheetmusicDetail,
+      title: sheetmusic.title,
+      passProps: {
+        sheetmusicId: sheetmusic.id
+      }
+    })
+  },
+
+  _renderSheetmusicThumbnail(sheetmusic) {
+    var prepareTitle = function(sheetmusic) {
+      return `${sheetmusic.title} by ${sheetmusic.composer_name}`;
+    }
+
+    return (
+        <TouchableHighlight onPress={() => this._showSheetmusicDetails(sheetmusic) } style={styles.thumbnail}>
+          <View>
+            <Image style={styles.image} source={{uri: 'http:'+sheetmusic.thumbnail_url }} />
+            <Text style={styles.sheetmusicText}>{ prepareTitle(sheetmusic) }</Text>
+          </View>
+        </TouchableHighlight>
+    )
+  },
+
   render() {
 
     if (!this.state.isLoaded) {
@@ -59,14 +87,14 @@ var Library = React.createClass({
     } else {
 
       return (
-        <View>
+        <View style={{ height: 1000, backgroundColor: 'rgb(40,40,40)' }}>
           <TextInput
           style={{height: 40, margin: 10, backgroundColor: 'rgb(40,40,40)', borderWidth: 1}}
           onChangeText={(text) => this.setState({input: text})}>
           </TextInput>
 
           <ScrollView contentContainerStyle={styles.list}>
-            {this.state.sheetmusicLibrary.map((sheetmusic) => { return <SheetmusicThumbnail sheetmusic={sheetmusic}></SheetmusicThumbnail> })}
+            {this.state.sheetmusicLibrary.map((sheetmusic) => { return this._renderSheetmusicThumbnail(sheetmusic) })}
           </ScrollView>
 
           <View style={{alignSelf: 'flex-end', flexDirection: 'row', paddingBottom: 20, paddingRight: 25}}>
@@ -79,7 +107,26 @@ var Library = React.createClass({
       )
     }
   }
+});
 
+var LibraryWrapper = React.createClass({
+  render: function() {
+    return (
+      <NavigatorIOS
+        style={{
+          flexDirection: 'row', 
+          flex: 1,
+          backgroundColor: 'rgb(40,40,40)',
+        }}
+        navigationBarHidden={true}
+        translucent={true}
+        initialRoute={{
+          title: 'Library',
+          component: Library,
+          passProps: { openLoginModal: this.props.openLoginModal },
+        }} />
+    );
+  }
 });
 
 var styles = StyleSheet.create({
@@ -93,9 +140,18 @@ var styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center'
     },
-
     item: {
         margin: 10,
+    },
+    sheetmusicText: {
+        fontSize: 18,
+        marginTop: 5,
+        color: 'white'
+    },
+    thumbnail: {
+        margin: 5,
+        padding: 5,
+        width: 210
     },
     image: {
         width: 200,
@@ -108,4 +164,4 @@ var styles = StyleSheet.create({
     }
 });
 
-module.exports = Library;
+module.exports = LibraryWrapper;

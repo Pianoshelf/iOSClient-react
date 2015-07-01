@@ -8,10 +8,11 @@ var LoginModal = require('./LoginModal');
 
 var {
   AppRegistry,
+  Navigator,
   StyleSheet,
   Text,
-  View,
-  TouchableHighlight
+  TouchableHighlight,
+  View
 } = React;
 
 var Main = React.createClass({
@@ -24,6 +25,7 @@ var Main = React.createClass({
   },
 
   openLoginModal() {
+    console.log("OPEN MODAL");
     this.setState({isModalOpen: true});
   },
  
@@ -40,22 +42,21 @@ var Main = React.createClass({
   },
 
   render() {
-
     if (this.state.curView === 'library') {
       return (
         <View style={styles.containerDark}>
-          <LeftNavigation browseSheetmusic={this.browseSheetmusic} viewLibrary={this.viewLibrary.bind(this)} />
-          <Library style={styles.browse} openLoginModal={this.openLoginModal.bind(this)} />
-          <LoginModal isModalOpen={this.state.isModalOpen} closeLoginModal={this.closeLoginModal.bind(this)}/>
+          <LeftNavigation browseSheetmusic={this.browseSheetmusic} viewLibrary={this.viewLibrary} />
+          <Library style={styles.browse} openLoginModal={this.openLoginModal} />
+          <LoginModal isModalOpen={this.state.isModalOpen} closeLoginModal={this.closeLoginModal}/>
         </View>
       );
     } 
     else if (this.state.curView === 'browse') {
       return (
         <View style={styles.containerLight}>
-          <LeftNavigation browseSheetmusic={this.browseSheetmusic.bind} viewLibrary={this.viewLibrary.bind(this)} />
+          <LeftNavigation browseSheetmusic={this.browseSheetmusic} viewLibrary={this.viewLibrary} />
           <Browse />
-          <LoginModal isModalOpen={this.state.isModalOpen} closeLoginModal={this.closeLoginModal.bind(this)} openLoginModal={this.openLoginModal.bind(this)}/>
+          <LoginModal isModalOpen={this.state.isModalOpen} closeLoginModal={this.closeLoginModal} openLoginModal={this.openLoginModal}/>
         </View>
       );
     } 
@@ -72,7 +73,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row', 
     flex: 1,
     marginTop: 30,
-    backgroundColor: 'rgb(50,50,50)'
+    backgroundColor: 'rgb(50,50,50)',
   },
   containerLight: {
     flexDirection: 'row', 

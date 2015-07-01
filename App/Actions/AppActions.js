@@ -1,14 +1,14 @@
-var dispatcher    = require('../../AppDispatcher');
-var AppConstants  = require('../Constants/AppConstants');
-var API           = require('../Util/Api');
-var Library       = require('../Util/Library');
+var dispatcher     = require('../../AppDispatcher');
+var AppConstants   = require('../Constants/AppConstants');
+var API            = require('../Util/Api');
+var StorageWrapper = require('../Util/StorageWrapper');
 
 module.exports = {
 
   // Sheetmusic Library
 
   initializeSheetmusicLibrary() {
-    Library.getAllSheetmusic()
+    StorageWrapper.getAllSheetmusic()
     .then((value) => {
 
       var sheetmusic = [];

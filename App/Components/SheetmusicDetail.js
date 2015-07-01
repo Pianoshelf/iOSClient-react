@@ -4,6 +4,7 @@ var React = require('react-native');
 var API = require('../Util/Api');
 var AppActions = require('../Actions/AppActions');
 var SheetmusicLibraryStore = require('../Stores/SheetmusicLibraryStore');
+var SheetmusicViewer = require('./SheetmusicViewer');
 
 var {
   Text,
@@ -11,7 +12,8 @@ var {
   StyleSheet,
   Image,
   ActivityIndicatorIOS,
-  TouchableHighlight
+  TouchableHighlight,
+  Navigator
 } = React;
 
 var SheetmusicDetail = React.createClass({
@@ -25,21 +27,25 @@ var SheetmusicDetail = React.createClass({
 
   _updateDataSourceFromStore(){
     this.setState({
-
     })
   },
 
   componentWillMount() {
     SheetmusicLibraryStore.addChangeListener(this._updateDataSourceFromStore);
 
+    console.log(this.props);
+
     API.getSheetmusicDetails(this.props.sheetmusicId)
     .then((sheetmusic) => {
-
       this.setState({
         sheetmusic: sheetmusic,
         isLoaded: true
       })
     });
+  },
+
+  componentWillUnmount() {
+    SheetmusicLibraryStore.removeChangeListener(this._updateDataSourceFromStore);
   },
 
   removeSheetmusicFromLibrary() {
@@ -50,16 +56,35 @@ var SheetmusicDetail = React.createClass({
     AppActions.addSheetmusicToLibrary(this.state.sheetmusic)
   },
 
+  viewSheetmusic() {
+    Navigator.getContext(this).push({
+      component: SheetmusicViewer,
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+      passProps: {
+        sheetmusic: this.state.sheetmusic
+      }
+    })
+  },
+
   _downloadOrRemoveButton() {
     
     if (SheetmusicLibraryStore.hasSheetmusicWithId(this.state.sheetmusic.id)) {
       return (
+        <View>
+          <TouchableHighlight 
+            underlayColor="rgba(80,180,80,.5)" 
+            onPress={() => this.viewSheetmusic()} 
+            style={[styles.button,styles.downloadButton, {marginTop: 10, marginBottom: 10}]}>
+            <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>View</Text>
+          </TouchableHighlight>
+
           <TouchableHighlight 
             underlayColor="rgba(80,180,80,.5)" 
             onPress={() => this.removeSheetmusicFromLibrary()} 
             style={[styles.button,styles.removeButton]}>
             <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>Remove</Text>
           </TouchableHighlight>
+        </View>
         )
     } else {
       return (

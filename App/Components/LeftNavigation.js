@@ -31,7 +31,7 @@ var styles = StyleSheet.create({
   button: {
     backgroundColor: 'grey',
     height: 100,
-    width: 100
+    width: 80
   }
 });
 
