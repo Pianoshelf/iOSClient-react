@@ -3,11 +3,13 @@
 var React = require('react-native');
 var {
   AppRegistry,
+  Image,
+  Navigator,
+  ScrollView,
   StyleSheet,
   Text,
   View,
-  Image,
-  ScrollView
+  TouchableHighlight
 } = React;
 
 
@@ -28,6 +30,10 @@ var SheetmusicViewer = React.createClass({
     });
   },
 
+  close() {
+    Navigator.getContext(this).pop();
+  },
+
   _sheetmusicImage(uri) {
     return (
       <ScrollView
@@ -45,16 +51,24 @@ var SheetmusicViewer = React.createClass({
 
   render(){
     return (
-      <ScrollView
-        horizontal={true}
-        centerContent={false}
-        contentInset={{}}
-        alwaysBounceHorizontal={true}
-        automaticallyAdjustContentInsets={true}
-        pagingEnabled={true}
-        style={[styles.scrollView, styles.horizontalScrollView]}>
-        {this.state.images.map( (uri, i) => this._sheetmusicImage(uri) )}
-      </ScrollView>
+      <View>
+        <View style={{ height: 20 }}/>
+        <View style={{ backgroundColor: 'rgb(50,50,50)'}}>
+          <TouchableHighlight style={{ alignSelf: 'flex-end', marginRight: 33 }}>
+            <Text onPress={() => this.close() } style={styles.closeButton}>Close</Text>
+          </TouchableHighlight>
+        </View>
+        <ScrollView
+          horizontal={true}
+          centerContent={false}
+          contentInset={{}}
+          alwaysBounceHorizontal={true}
+          automaticallyAdjustContentInsets={true}
+          pagingEnabled={true}
+          style={[styles.scrollView, styles.horizontalScrollView]}>
+          {this.state.images.map( (uri, i) => this._sheetmusicImage(uri) )}
+        </ScrollView>
+      </View>
      )
   }
 });
@@ -69,13 +83,20 @@ var styles = StyleSheet.create({
   imgWrap: {
     borderColor: 'rgb(240,240,240)',
     borderWidth: 0,
-    padding: 33,
+    paddingLeft: 33,
+    paddingRight: 33,
     height: 1020
   },
   img: {
     flex: 1,
     width: 700,
     height: 930,
+  },
+  closeButton: {
+    color: 'white',
+    fontSize: 16,
+    marginBottom: 5,
+    marginTop: 5
   }
 });
 

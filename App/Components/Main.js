@@ -12,6 +12,7 @@ var LoginModalStore = require('../Stores/LoginModalStore');
 var AppActions      = require('../Actions/AppActions');
 
 var {
+  ActivityIndicatorIOS,
   AppRegistry,
   Navigator,
   StyleSheet,
@@ -24,6 +25,7 @@ var Main = React.createClass({
 
   getInitialState() {
     return {
+      isLoading: true,
       curView: 'library',
       isModalOpen: false,
       user: null
@@ -32,6 +34,7 @@ var Main = React.createClass({
 
   _updateDataSourceFromStore(){
     this.setState({
+      isLoading: false,
       user: UserStore.getState(),
       isModalOpen: LoginModalStore.getState().loginModalOpen
     })
@@ -40,6 +43,7 @@ var Main = React.createClass({
   componentWillMount() {
     UserStore.addChangeListener(this._updateDataSourceFromStore);
     LoginModalStore.addChangeListener(this._updateDataSourceFromStore);
+    AppActions.loadUser();
   },
 
   componentWillUnmount() {
@@ -64,34 +68,43 @@ var Main = React.createClass({
   },
 
   render() {
-    if (this.state.user === null) {
+    if (this.state.isLoading) {
       return (
-        <View style={styles.containerWhite}>
-          <IntroScreen/>
-          <LoginModal isModalOpen={this.state.isModalOpen} closeLoginModal={this.closeLoginModal}/>
+        <View style={ styles.loading }>
+          <Text>Loading..</Text>
+          <ActivityIndicatorIOS />
         </View>
-      );
+      )
     } else {
-      if (this.state.curView === 'library') {
-        return (
-          <View style={styles.containerDark}>
-            <LeftNavigation browseSheetmusic={this.browseSheetmusic} viewLibrary={this.viewLibrary} />
-            <Library style={styles.browse} openLoginModal={this.openLoginModal} />
-            <LoginModal isModalOpen={this.state.isModalOpen} closeLoginModal={this.closeLoginModal}/>
-          </View>
-        );
-      }
-      else { // if (this.state.curView === 'browse') {
-        return (
-          <View style={styles.containerLight}>
-            <LeftNavigation browseSheetmusic={this.browseSheetmusic} viewLibrary={this.viewLibrary} />
-            <Browse />
-            <LoginModal isModalOpen={this.state.isModalOpen} closeLoginModal={this.closeLoginModal} openLoginModal={this.openLoginModal}/>
-          </View>
-        );
+      if (this.state.user === null) {
+            return (
+              <View style={styles.containerWhite}>
+                <IntroScreen/>
+                <LoginModal isModalOpen={this.state.isModalOpen} closeLoginModal={this.closeLoginModal}/>
+              </View>
+            );
+          } else {
+            if (this.state.curView === 'library') {
+              return (
+                <View style={styles.containerDark}>
+                  <LeftNavigation browseSheetmusic={this.browseSheetmusic} viewLibrary={this.viewLibrary} />
+                  <Library style={styles.browse} openLoginModal={this.openLoginModal} />
+                  <LoginModal isModalOpen={this.state.isModalOpen} closeLoginModal={this.closeLoginModal}/>
+                </View>
+              );
+            }
+            else { // if (this.state.curView === 'browse') {
+              return (
+                <View style={styles.containerLight}>
+                  <LeftNavigation browseSheetmusic={this.browseSheetmusic} viewLibrary={this.viewLibrary} />
+                  <Browse />
+                  <LoginModal isModalOpen={this.state.isModalOpen} closeLoginModal={this.closeLoginModal} openLoginModal={this.openLoginModal}/>
+                </View>
+              );
+            }
+        }
       }
     }
-  }
 });
 
 var styles = StyleSheet.create({
@@ -115,6 +128,11 @@ var styles = StyleSheet.create({
   browse: {
     flex: 0.5,
   },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });
 
 module.exports = Main;

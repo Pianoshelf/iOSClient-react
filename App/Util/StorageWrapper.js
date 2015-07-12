@@ -19,7 +19,6 @@ var Library = {
         username: username,
         password: password
     }
-
     return AsyncStorage.setItem(USER_KEY, JSON.stringify(user));
   },
   getUser() {

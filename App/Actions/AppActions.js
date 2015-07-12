@@ -50,6 +50,51 @@ module.exports = {
     });
   },
 
+  receiveInitialCategoryList(options) {
+
+    // TODO: load from API
+    var data = ["Sonata", "Anime", "Pop", "Classical"];
+    data = data.map( (tag) => { return {tagName: tag, selected: false} } );
+
+    console.log(data);
+
+    dispatcher.handleViewAction({
+      actionType: AppConstants.RECEIVE_CATEGORIES,
+      data: data,
+    });
+  },
+
+  receiveInitialArtistList(options) {
+
+    // TODO: load from API
+    var data = ["Beethoven", "Mozart", "Chopin"];
+    data = data.map( (tag) => { return {tagName: tag, selected: false} } );
+
+    dispatcher.handleViewAction({
+      actionType: AppConstants.RECEIVE_ARTISTS,
+      data: data,
+    });
+  },
+
+  receiveInitialDifficultyList(options) {
+
+    // TODO: load from API
+    var data = ["Beginner","Intermediate","Difficult","Advanced","Expert"];
+    data = data.map( (tag) => { return {tagName: tag, selected: false} } );
+
+    dispatcher.handleViewAction({
+      actionType: AppConstants.RECEIVE_DIFFICULTIES,
+      data: data,
+    });
+  },
+
+  selectTag(tagType, tagName) {
+    dispatcher.handleViewAction({
+      actionType: AppConstants.SELECT_TAG,
+      data: {tagType: tagType, tagName: tagName},
+    });
+  },
+
   // User
 
   loadUser() {
