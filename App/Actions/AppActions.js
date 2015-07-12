@@ -115,7 +115,7 @@ module.exports = {
 
   skipLogin() {
     StorageWrapper.setUser('Anonymous', null)
-    .then(function() {
+    .then(() => {
 
       var user = {
         username: 'Anonymous',

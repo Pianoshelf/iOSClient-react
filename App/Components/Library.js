@@ -60,7 +60,7 @@ var Library = React.createClass({
   },
 
   _renderSheetmusicThumbnail(sheetmusic) {
-    var prepareTitle = function(sheetmusic) {
+    var prepareTitle = (sheetmusic) => {
       return `${sheetmusic.title} by ${sheetmusic.composer_name}`;
     }
 
@@ -110,7 +110,7 @@ var Library = React.createClass({
 });
 
 var LibraryWrapper = React.createClass({
-  render: function() {
+  render() {
     return (
       <NavigatorIOS
         style={{

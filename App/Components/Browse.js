@@ -225,7 +225,7 @@ var Browse = React.createClass({
 });
 
 var BrowseWrapper = React.createClass({
-  render: function() {
+  render() {
     return (
       <NavigatorIOS
         style={{

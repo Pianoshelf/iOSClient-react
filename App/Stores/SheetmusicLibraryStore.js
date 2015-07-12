@@ -18,9 +18,9 @@ var store = createStore({
   },
 
   hasSheetmusicWithId(id) {
-    var sheetmusic = _sheetmusicLibrary.filter(function(el) {
+    var sheetmusic = _sheetmusicLibrary.filter((el) => {
       return el.id === id;
-    })
+    });
     return sheetmusic.length > 0;
   },
 
@@ -43,7 +43,7 @@ var store = createStore({
 
       case AppConstants.REMOVE_SHEETMUSIC_FROM_LIBRARY:
         var removeSheetmusicId = action.data;
-        _sheetmusicLibrary = _sheetmusicLibrary.filter(function(el) {
+        _sheetmusicLibrary = _sheetmusicLibrary.filter((el) => {
           return el.id !== removeSheetmusicId;
         })
 
