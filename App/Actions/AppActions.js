@@ -88,6 +88,13 @@ module.exports = {
     });
   },
 
+  receiveSearchTerm(searchTerm) {
+    dispatcher.handleViewAction({
+      actionType: AppConstants.RECEIVE_SEARCH_TERM,
+      data: searchTerm,
+    });
+  },
+
   selectTag(tagType, tagName) {
     dispatcher.handleViewAction({
       actionType: AppConstants.SELECT_TAG,

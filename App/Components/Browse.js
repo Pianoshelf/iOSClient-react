@@ -23,6 +23,7 @@ var Browse = React.createClass({
 
   getInitialState() {
     return {
+      searchTerm: "",
       sheetmusicList: [],
       difficultyTags: [],
       artists: [],
@@ -55,6 +56,10 @@ var Browse = React.createClass({
   componentWillUnmount() {
     // Remove change listers from stores
     SheetmusicStore.removeChangeListener(this._updateDataSourceFromStore);
+  },
+
+  _selectTag(tagType, tagName) {
+    AppActions.selectTag(tagType, tagName);
   },
 
   _updateDataSourceFromStore(){
@@ -102,7 +107,7 @@ var Browse = React.createClass({
     }
 
     return (
-      <TouchableHighlight onPress={() => AppActions.selectTag(tagType, tagName) } style={[buttonColor, styles.category]}>
+      <TouchableHighlight onPress={() => this._selectTag(tagType, tagName) } style={[buttonColor, styles.category]}>
         <Text style={styles.categoryTag}>{{ tagName }}</Text>
       </TouchableHighlight>
     );
@@ -200,8 +205,13 @@ var Browse = React.createClass({
           <View style={styles.flowRight}>
               <TextInput 
               style={styles.searchText}
-              placeholder="Search..">
+              placeholder="Search.."
+              onChangeText={(text) => AppActions.receiveSearchTerm(text)}>
               </TextInput>
+
+              <TouchableHighlight style={styles.searchButton}>
+                <Text>Search</Text>
+              </TouchableHighlight>
 
               <TouchableHighlight style={styles.sortBackground}>
                 <Text style={styles.sortText}>Popular</Text>
@@ -283,6 +293,10 @@ var styles = StyleSheet.create({
     borderColor: 'rgb(120,120,120)', 
     borderWidth: 1,
     padding: 2
+  },
+  searchButton: {
+    marginLeft: 1,
+    padding: 5,
   },
   sortBackground: {
     flex: 1,

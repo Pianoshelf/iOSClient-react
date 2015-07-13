@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var { Icon, } = require('react-native-icons');
 
 var {
   StyleSheet,
@@ -14,10 +15,24 @@ class LeftNavigation extends React.Component{
     return (
       <View style={styles.navcontainer}>
         <TouchableHighlight style={styles.button} onPress={this.props.viewLibrary}>
-          <Text>Library</Text>
+          <View style={styles.menuItem}>
+          <Icon
+            name='fontawesome|archive'
+            size={40}
+            color='rgb(50,50,50)'
+            style={styles.menuItem}/>
+          <Text style={styles.menuItemText}>LIBRARY</Text>
+          </View>            
         </TouchableHighlight>
         <TouchableHighlight style={styles.button} onPress={this.props.browseSheetmusic}>
-          <Text>Browse</Text>
+          <View style={styles.menuItem}>
+          <Icon
+            name='fontawesome|list'
+            size={40}
+            color='rgb(50,50,50)'
+            style={{height: 70, width: 70}}/>
+          <Text style={styles.menuItemText}>BROWSE</Text>
+          </View>            
         </TouchableHighlight>
       </View>
     );
@@ -32,6 +47,18 @@ var styles = StyleSheet.create({
     backgroundColor: 'grey',
     height: 100,
     width: 80
+  },
+  menuItem : {
+    height: 70, 
+    width: 70, 
+    padding: 5,
+    alignItems: 'center'
+  },
+  menuItemText: {
+    marginTop: -10,
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold'
   }
 });
 

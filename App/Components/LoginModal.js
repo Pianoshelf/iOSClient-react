@@ -5,7 +5,8 @@ var {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+  Navigator
 } = React;
 
 var LoginModal = React.createClass({

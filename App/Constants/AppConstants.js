@@ -8,6 +8,7 @@ module.exports = keyMirror({
   RECEIVE_CATEGORIES: true,
   RECEIVE_ARTISTS: true,
   RECEIVE_DIFFICULTIES: true,
+  RECEIVE_SEARCH_TERM: true,
   SELECT_TAG: true,
 
   RECEIVE_SHEETMUSIC_DATA: true,        // Loads initial sheetmusic list.
