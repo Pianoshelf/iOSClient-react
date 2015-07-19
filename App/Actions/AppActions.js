@@ -136,12 +136,33 @@ module.exports = {
     });
   },
 
-  // Login Modal
+  login(username, password) {
 
-  toggleLoginModal(loginModalOpen) {
-    dispatcher.handleViewAction({
-      actionType: AppConstants.TOGGLE_LOGIN_MODAL,
-      loginModalOpen: loginModalOpen
+    API.login(username, password)
+    .then((res, err) => {
+
+      // successful login
+      if (res.status == 200) {
+        res.json()
+        .then((user) => {
+
+          dispatcher.handleViewAction({
+            actionType: AppConstants.SUCCESSFUL_LOGIN,
+            data: user
+          })
+        });
+      }
+      // failed login
+      else {
+        res.json()
+        .then((res) => {
+          var errorMessage = res.non_field_errors.join('\n');
+          dispatcher.handleViewAction({
+            actionType: AppConstants.FAILED_LOGIN,
+            data: errorMessage
+          })
+        });
+      }
     });
   }
 

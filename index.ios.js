@@ -13,27 +13,29 @@ var {
 } = React;
 
 var Pianoshelf = React.createClass ({
-    renderScene(route, nav) {
-      var props = route.passProps;
 
-      if (route.component) {
-        return React.createElement(route.component, props);
-      }
-    },
+  renderScene(route, nav) {
+    var props = route.passProps || {};
+    props.navigator = nav;
 
-    render() {
-      return (
-        <Navigator
-          initialRoute={{name: 'Main', component: Main}}
-          renderScene={this.renderScene}
-          configureScene={(route) => {
-            if (route.sceneConfig) {
-              return route.sceneConfig;
-            }
-            return Navigator.SceneConfigs.FloatFromBottom;
-          }}/>
-      );
+    if (route.component) {
+      return React.createElement(route.component, props);
     }
+  },
+
+  render() {
+    return (
+      <Navigator
+        initialRoute={{name: 'Main', component: Main}}
+        renderScene={this.renderScene}
+        configureScene={(route) => {
+          if (route.sceneConfig) {
+            return route.sceneConfig;
+          }
+          return Navigator.SceneConfigs.FloatFromBottom;
+        }}/>
+    );
+  }
 });
 
 var styles = StyleSheet.create({

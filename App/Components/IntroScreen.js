@@ -18,7 +18,7 @@ var IntroScreen = React.createClass({
   },
 
   openLoginModal() {
-    AppActions.toggleLoginModal(true);
+    
   },
 
   render() {

@@ -16,6 +16,8 @@ module.exports = keyMirror({
 
   LOAD_USER: true,
   SKIP_LOGIN: true,
+  SUCCESSFUL_LOGIN: true,
+  FAILED_LOGIN: true,
 
   TOGGLE_LOGIN_MODAL: true,
 });

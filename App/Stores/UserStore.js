@@ -3,6 +3,7 @@
 var createStore = require('flux-util').createStore;
 var dispatcher = require('../../AppDispatcher');
 var AppConstants = require('../Constants/AppConstants');
+var { AlertIOS } = require('react-native');
 
 var _user = null;
 
@@ -16,7 +17,7 @@ var store = createStore({
     return _user;
   },
 
-  isAnonymous() {
+  isAnonymousUser() {
     return _user != null && _user.username === 'Anonymous';
   },
 
@@ -32,6 +33,19 @@ var store = createStore({
       case AppConstants.SKIP_LOGIN:
         _user = action.data;
         store.emitChange(action);
+        break;
+
+      case AppConstants.SUCCESSFUL_LOGIN:
+        _user = action.data;
+        store.emitChange(action);
+        break;
+
+      case AppConstants.FAILED_LOGIN:
+        var errorMessage = action.data;
+        AlertIOS.alert(
+            'Login failed',
+            errorMessage
+        )
         break;
     }
 

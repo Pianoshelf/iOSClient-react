@@ -99,7 +99,7 @@ var Library = React.createClass({
 
           <View style={{alignSelf: 'flex-end', flexDirection: 'row', paddingBottom: 20, paddingRight: 25}}>
             <Text style={{color: 'white', fontSize: 20, padding: 10}}>Have an account?</Text> 
-            <TouchableHighlight style={{backgroundColor: 'rgb(100,100,100)', padding: 10}} onPress={this.props.openLoginModal}>
+            <TouchableHighlight style={{backgroundColor: 'rgb(100,100,100)', padding: 10}} onPress={this.props.openLoginScreen}>
               <Text style={{color: 'white', fontSize: 20}}>Log In</Text>
             </TouchableHighlight>
           </View>
@@ -123,7 +123,7 @@ var LibraryWrapper = React.createClass({
         initialRoute={{
           title: 'Library',
           component: Library,
-          passProps: { openLoginModal: this.props.openLoginModal },
+          passProps: { openLoginScreen: this.props.openLoginScreen },
         }} />
     );
   }

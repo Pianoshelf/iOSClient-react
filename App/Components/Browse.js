@@ -101,14 +101,14 @@ var Browse = React.createClass({
 
     var buttonColor = {};
     if (tag.selected) {
-      buttonColor = { backgroundColor: 'rgb(50,50,50)' };
+      buttonColor = { backgroundColor: 'white', color: 'black' };
     } else {
-      buttonColor = { backgroundColor: 'rgb(150,150,150)' };
+      buttonColor = { backgroundColor: 'rgb(140,140,140)' };
     }
 
     return (
-      <TouchableHighlight onPress={() => this._selectTag(tagType, tagName) } style={[buttonColor, styles.category]}>
-        <Text style={styles.categoryTag}>{{ tagName }}</Text>
+      <TouchableHighlight onPress={() => this._selectTag(tagType, tagName) } style={[styles.category, buttonColor]}>
+        <Text style={[styles.categoryTag, buttonColor]}>{{ tagName }}</Text>
       </TouchableHighlight>
     );
   },
@@ -252,7 +252,7 @@ var BrowseWrapper = React.createClass({
 
 var styles = StyleSheet.create({
   greyBackground: {
-    backgroundColor: 'rgb(240, 240, 240)',
+    backgroundColor: 'rgb(235, 235, 235)',
   },
   container: {
     flexDirection: 'row',
@@ -280,7 +280,7 @@ var styles = StyleSheet.create({
   },
   categoryTag: {
     fontSize: 15,
-    color: 'white'
+    color: 'white',
   },
   flowRight: {
     flexDirection: 'row',
