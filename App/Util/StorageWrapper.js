@@ -14,11 +14,7 @@ var Library = {
   getAllSheetmusic() {
     return AsyncStorage.getItem(SHEETMUSIC_KEY);
   },
-  setUser(username, password) {
-    var user = {
-        username: username,
-        password: password
-    }
+  setUser(user) {
     return AsyncStorage.setItem(USER_KEY, JSON.stringify(user));
   },
   getUser() {

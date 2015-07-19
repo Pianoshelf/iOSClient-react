@@ -3,7 +3,9 @@ var AppActions              = require('../Actions/AppActions');
 var Browse                  = require('./Browse');
 var React                   = require('react-native');
 var SheetmusicDetail        = require('./SheetmusicDetail');
+
 var SheetmusicLibraryStore  = require('../Stores/SheetmusicLibraryStore');
+var UserStore = require('../Stores/UserStore');
 var SheetmusicViewer        = require('./SheetmusicViewer');
 
 var {
@@ -38,15 +40,16 @@ var Library = React.createClass({
   componentWillMount() {
     // Add change listeners to stores
     SheetmusicLibraryStore.addChangeListener(this._updateDataSourceFromStore);
+    UserStore.addChangeListener(this._updateDataSourceFromStore);
 
     AppActions.initializeSheetmusicLibrary();
-
     this._updateDataSourceFromStore();
   },
 
   componentWillUnmount() {
     // Remove change listers from stores
     SheetmusicLibraryStore.removeChangeListener(this._updateDataSourceFromStore);
+    UserStore.removeChangeListener(this._updateDataSourceFromStore);
   },
 
   _showSheetmusicDetails(sheetmusic) {
@@ -74,6 +77,20 @@ var Library = React.createClass({
     )
   },
 
+  _renderLoginButton() {
+
+    if (UserStore.isAnonymousUser()) {
+      return (
+        <View style={{alignSelf: 'flex-end', flexDirection: 'row', paddingBottom: 20, paddingRight: 25}}>
+          <Text style={{color: 'white', fontSize: 20, padding: 10}}>Have an account?</Text> 
+          <TouchableHighlight style={{backgroundColor: 'rgb(100,100,100)', padding: 10}} onPress={this.props.openLoginScreen}>
+            <Text style={{color: 'white', fontSize: 20}}>Log In</Text>
+          </TouchableHighlight>
+        </View>
+      );
+    }
+  },
+
   render() {
 
     if (!this.state.isLoaded) {
@@ -87,7 +104,7 @@ var Library = React.createClass({
     } else {
 
       return (
-        <View style={{ height: 1000, backgroundColor: 'rgb(40,40,40)' }}>
+        <View style={styles.container}>
           <TextInput
           style={{height: 40, margin: 10, backgroundColor: 'rgb(40,40,40)', borderWidth: 1}}
           onChangeText={(text) => this.setState({input: text})}>
@@ -97,12 +114,7 @@ var Library = React.createClass({
             {this.state.sheetmusicLibrary.map((sheetmusic) => { return this._renderSheetmusicThumbnail(sheetmusic) })}
           </ScrollView>
 
-          <View style={{alignSelf: 'flex-end', flexDirection: 'row', paddingBottom: 20, paddingRight: 25}}>
-            <Text style={{color: 'white', fontSize: 20, padding: 10}}>Have an account?</Text> 
-            <TouchableHighlight style={{backgroundColor: 'rgb(100,100,100)', padding: 10}} onPress={this.props.openLoginScreen}>
-              <Text style={{color: 'white', fontSize: 20}}>Log In</Text>
-            </TouchableHighlight>
-          </View>
+          { this._renderLoginButton() }
         </View>
       )
     }
@@ -113,11 +125,7 @@ var LibraryWrapper = React.createClass({
   render() {
     return (
       <NavigatorIOS
-        style={{
-          flexDirection: 'row', 
-          flex: 1,
-          backgroundColor: 'rgb(40,40,40)',
-        }}
+        style={styles.navigatorIos}
         navigationBarHidden={true}
         translucent={true}
         initialRoute={{
@@ -130,6 +138,15 @@ var LibraryWrapper = React.createClass({
 });
 
 var styles = StyleSheet.create({
+    navigatorIos: {
+      flexDirection: 'row', 
+      flex: 1,
+      backgroundColor: 'rgb(40,40,40)',
+    },
+    container: {
+      height: 1000,
+      backgroundColor: 'rgb(50,50,50)'
+    },
     list: {
         flexDirection: 'row',
         flexWrap: 'wrap',

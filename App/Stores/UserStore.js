@@ -4,6 +4,7 @@ var createStore = require('flux-util').createStore;
 var dispatcher = require('../../AppDispatcher');
 var AppConstants = require('../Constants/AppConstants');
 var { AlertIOS } = require('react-native');
+var StorageWrapper = require('../Util/StorageWrapper');
 
 var _user = null;
 
@@ -37,6 +38,7 @@ var store = createStore({
 
       case AppConstants.SUCCESSFUL_LOGIN:
         _user = action.data;
+        StorageWrapper.setUser(_user);
         store.emitChange(action);
         break;
 

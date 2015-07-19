@@ -3,6 +3,7 @@
 var React = require('react-native');
 var UserStore = require('../Stores/UserStore');
 var AppActions = require('../Actions/AppActions');
+var Login = require('../Components/Login');
 
 var {
   TouchableHighlight,
@@ -17,10 +18,6 @@ var IntroScreen = React.createClass({
     AppActions.skipLogin();
   },
 
-  openLoginModal() {
-    
-  },
-
   render() {
     return (
       <View style={styles.wrapper}>
@@ -28,7 +25,7 @@ var IntroScreen = React.createClass({
           Pianoshelf Logo Here
         </Text>
 
-        <TouchableHighlight onPress={() => this.openLoginModal()} underlayColor="rgba(0,0,0,.1)">
+        <TouchableHighlight onPress={() => this.props.navigator.push({ id: 'loginmodal', title: 'login', component: Login }) } underlayColor="rgba(0,0,0,.1)">
           <Text style={styles.text}>Login</Text>
         </TouchableHighlight>
 

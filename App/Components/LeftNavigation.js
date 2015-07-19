@@ -19,7 +19,7 @@ class LeftNavigation extends React.Component{
           <Icon
             name='fontawesome|archive'
             size={40}
-            color='rgb(50,50,50)'
+            color='rgb(180,180,180)'
             style={styles.menuItem}/>
           <Text style={styles.menuItemText}>LIBRARY</Text>
           </View>            
@@ -29,7 +29,7 @@ class LeftNavigation extends React.Component{
           <Icon
             name='fontawesome|list'
             size={40}
-            color='rgb(50,50,50)'
+            color='rgb(180,180,180)'
             style={{height: 70, width: 70}}/>
           <Text style={styles.menuItemText}>BROWSE</Text>
           </View>            
@@ -44,7 +44,6 @@ var styles = StyleSheet.create({
     backgroundColor: 'rgb(40,40,40)',
   },
   button: {
-    backgroundColor: 'grey',
     height: 100,
     width: 80
   },

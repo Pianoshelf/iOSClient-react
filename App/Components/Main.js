@@ -27,7 +27,7 @@ var Main = React.createClass({
       isLoading: true,
       curView: 'library',
       isModalOpen: false,
-      user: null
+      user: UserStore.getState()
     };
   },
 
@@ -48,7 +48,7 @@ var Main = React.createClass({
   },
 
   openLoginScreen() {
-    this.props.navigator.push({ id: 'loginmodal', title: 'login', component: Login});
+    this.props.navigator.push({ id: 'loginmodal', title: 'login', component: Login });
   },
 
   viewLibrary() {
@@ -60,6 +60,7 @@ var Main = React.createClass({
   },
 
   render() {
+
     if (this.state.isLoading) {
       return (
         <View style={ styles.loading }>
@@ -71,7 +72,7 @@ var Main = React.createClass({
       if (this.state.user === null) {
         return (
           <View style={styles.containerWhite}>
-            <IntroScreen/>
+            <IntroScreen navigator={this.props.navigator} />
           </View>
         );
       } else {
@@ -91,9 +92,10 @@ var Main = React.createClass({
             </View>
           );
         }
-    }
       }
     }
+  }
+
 });
 
 var styles = StyleSheet.create({
@@ -101,7 +103,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row', 
     flex: 1,
     marginTop: 30,
-    backgroundColor: 'rgb(50,50,50)',
+    backgroundColor: 'rgb(80,80,80)',
   },
   containerLight: {
     flexDirection: 'row', 

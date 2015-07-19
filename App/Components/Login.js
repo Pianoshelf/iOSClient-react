@@ -84,9 +84,7 @@ var LoginModal = React.createClass({
     var user = UserStore.getState();
 
     if (!UserStore.isAnonymousUser()) {
-      console.log(user);
-      console.log(this.props.topNavigator);
-      this.props.topNavigator.pop();
+      this.props.navigator.pop();
     }
   },
 
