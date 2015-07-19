@@ -33,8 +33,6 @@ var SheetmusicDetail = React.createClass({
   componentWillMount() {
     SheetmusicLibraryStore.addChangeListener(this._updateDataSourceFromStore);
 
-    console.log(this.props);
-
     API.getSheetmusicDetails(this.props.sheetmusicId)
     .then((sheetmusic) => {
       this.setState({
@@ -57,7 +55,7 @@ var SheetmusicDetail = React.createClass({
   },
 
   viewSheetmusic() {
-    Navigator.getContext(this).push({
+    this.props.topNavigator.push({
       component: SheetmusicViewer,
       sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
       passProps: {
@@ -110,20 +108,20 @@ var SheetmusicDetail = React.createClass({
       return (
         <View style={styles.container}>
           <View style={styles.box}>
-            <Text style={styles.textTitle}>{ this.state.sheetmusic.title }</Text>
-            <Text style={styles.textSubheading}>{ this.state.sheetmusic.composer_name }</Text>
-            <View style={{flexDirection: 'row', marginTop: 10}}>
-              <View>
-                <Image style={styles.sheetmusicImage} source={{uri: 'http:'+this.state.sheetmusic.thumbnail_url }} />
-              </View>
-              <View>
-                <Text style={{fontSize: 18}}>{ this.state.sheetmusic.submitted_by }</Text>
-                <Text style={{fontSize: 18}}>{ this.state.sheetmusic.view_count }</Text>
-                <Text style={{fontSize: 18}}>{ this.state.sheetmusic.key }</Text>
-                <Text style={{fontSize: 18, flex: 1, flexWrap: 'wrap', width: 200}}>{ this.state.sheetmusic.license }</Text>
-                {this._downloadOrRemoveButton()}
-              </View>
+          <Text style={styles.textTitle}>{ this.state.sheetmusic.title }</Text>
+          <Text style={styles.textSubheading}>{ this.state.sheetmusic.composer_name }</Text>
+          <View style={{flexDirection: 'row', marginTop: 10}}>
+            <View>
+              <Image style={styles.sheetmusicImage} source={{uri: 'http:'+this.state.sheetmusic.thumbnail_url }} />
             </View>
+            <View>
+              <Text style={{fontSize: 18}}>{ this.state.sheetmusic.submitted_by }</Text>
+              <Text style={{fontSize: 18}}>{ this.state.sheetmusic.view_count }</Text>
+              <Text style={{fontSize: 18}}>{ this.state.sheetmusic.key }</Text>
+              <Text style={{fontSize: 18, flex: 1, flexWrap: 'wrap', width: 200}}>{ this.state.sheetmusic.license }</Text>
+              {this._downloadOrRemoveButton()}
+            </View>
+          </View>
           </View>
         </View>
       )
@@ -133,7 +131,10 @@ var SheetmusicDetail = React.createClass({
 
 var styles = StyleSheet.create({
   container: {
-    marginTop: 45
+    marginTop: 45,
+    backgroundColor: 'white',
+    marginLeft: 10,
+    marginRight: 10
   },
   item: {
     margin: 10,

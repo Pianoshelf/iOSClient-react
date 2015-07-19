@@ -76,29 +76,35 @@ var Main = React.createClass({
           </View>
         );
       } else {
+
         if (this.state.curView === 'library') {
           return (
-            <View style={styles.containerDark}>
+            <View style={styles.container}>
               <LeftNavigation browseSheetmusic={this.browseSheetmusic} viewLibrary={this.viewLibrary} />
-              <Library style={styles.browse} openLoginScreen={this.openLoginScreen} />
+              <Library topNavigator={this.props.navigator} style={styles.browse} openLoginScreen={this.openLoginScreen} />
             </View>
           );
         }
         else { // if (this.state.curView === 'browse') {
           return (
-            <View style={styles.containerLight}>
-              <LeftNavigation browseSheetmusic={this.browseSheetmusic} viewLibrary={this.viewLibrary} />
+            <View style={styles.container}>
+              <LeftNavigation topNavigator={this.props.navigator} browseSheetmusic={this.browseSheetmusic} viewLibrary={this.viewLibrary} />
               <Browse />
             </View>
           );
         }
+
       }
     }
-  }
-
+  },
 });
 
 var styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row', 
+    flex: 1,
+    marginTop: 30
+  },
   containerDark: {
     flexDirection: 'row', 
     flex: 1,

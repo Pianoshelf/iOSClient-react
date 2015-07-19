@@ -18,8 +18,7 @@ var {
   ScrollView,
   TextInput,
   TouchableHighlight,
-  Navigator,
-  NavigatorIOS
+  Navigator
 } = React;
 
 var Library = React.createClass({
@@ -52,23 +51,21 @@ var Library = React.createClass({
     UserStore.removeChangeListener(this._updateDataSourceFromStore);
   },
 
-  _showSheetmusicDetails(sheetmusic) {
-    this.props.navigator.push({
-      component: SheetmusicDetail,
+  _showSheetmusicDetails(sheetmusic, navigator) {
+    navigator.push({
+      id: 'sheetmusicDetail',
       title: sheetmusic.title,
-      passProps: {
-        sheetmusicId: sheetmusic.id
-      }
+      sheetmusicId: sheetmusic.id
     })
   },
 
-  _renderSheetmusicThumbnail(sheetmusic) {
+  _renderSheetmusicThumbnail(sheetmusic, navigator) {
     var prepareTitle = (sheetmusic) => {
       return `${sheetmusic.title} by ${sheetmusic.composer_name}`;
     }
 
     return (
-        <TouchableHighlight onPress={() => this._showSheetmusicDetails(sheetmusic) } style={styles.thumbnail}>
+        <TouchableHighlight onPress={() => this._showSheetmusicDetails(sheetmusic, navigator) } style={styles.thumbnail}>
           <View>
             <Image style={styles.image} source={{uri: 'http:'+sheetmusic.thumbnail_url }} />
             <Text style={styles.sheetmusicText}>{ prepareTitle(sheetmusic) }</Text>
@@ -91,7 +88,7 @@ var Library = React.createClass({
     }
   },
 
-  render() {
+  _renderLibrary(navigator) {
 
     if (!this.state.isLoaded) {
 
@@ -104,47 +101,56 @@ var Library = React.createClass({
     } else {
 
       return (
-        <View style={styles.container}>
+        <View style={styles.containerDark}>
           <TextInput
           style={{height: 40, margin: 10, backgroundColor: 'rgb(40,40,40)', borderWidth: 1}}
           onChangeText={(text) => this.setState({input: text})}>
           </TextInput>
 
           <ScrollView contentContainerStyle={styles.list}>
-            {this.state.sheetmusicLibrary.map((sheetmusic) => { return this._renderSheetmusicThumbnail(sheetmusic) })}
+            {this.state.sheetmusicLibrary.map((sheetmusic) => { return this._renderSheetmusicThumbnail(sheetmusic, navigator) })}
           </ScrollView>
 
           { this._renderLoginButton() }
         </View>
       )
     }
-  }
-});
+  },
 
-var LibraryWrapper = React.createClass({
+  renderScene: function(route, nav) {
+    switch (route.id) {
+      case 'sheetmusicDetail':
+        return (
+          <SheetmusicDetail topNavigator={this.props.topNavigator} title={route.title} sheetmusicId={route.sheetmusicId} />
+        );
+      default: // Library
+        return this._renderLibrary(nav);
+    }
+  },
+
   render() {
     return (
-      <NavigatorIOS
-        style={styles.navigatorIos}
-        navigationBarHidden={true}
-        translucent={true}
-        initialRoute={{
-          title: 'Library',
-          component: Library,
-          passProps: { openLoginScreen: this.props.openLoginScreen },
-        }} />
-    );
+      <Navigator
+        style={styles.container}
+        initialRoute={{ id: 'library' }}
+        renderScene={this.renderScene}
+        configureScene={(route) => {
+          if (route.sceneConfig) {
+            return route.sceneConfig;
+          }
+          return Navigator.SceneConfigs.FloatFromRight;
+        }}/>
+    )
   }
+
 });
 
 var styles = StyleSheet.create({
-    navigatorIos: {
-      flexDirection: 'row', 
-      flex: 1,
-      backgroundColor: 'rgb(40,40,40)',
-    },
     container: {
-      height: 1000,
+      flex: 1,
+    },
+    containerDark: {
+      flex: 1,
       backgroundColor: 'rgb(50,50,50)'
     },
     list: {
@@ -181,4 +187,4 @@ var styles = StyleSheet.create({
     }
 });
 
-module.exports = LibraryWrapper;
+module.exports = Library;

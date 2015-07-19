@@ -31,7 +31,7 @@ var SheetmusicViewer = React.createClass({
   },
 
   close() {
-    Navigator.getContext(this).pop();
+    this.props.navigator.pop();
   },
 
   _sheetmusicImage(uri) {
