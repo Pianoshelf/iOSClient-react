@@ -20,6 +20,9 @@ var Library = {
   getUser() {
     return AsyncStorage.getItem(USER_KEY);
   },
+  clearUser() {
+    return AsyncStorage.setItem(USER_KEY, null);
+  },
   setAccessToken(accessToken) {
     return AsyncStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
   },

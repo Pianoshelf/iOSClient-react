@@ -275,7 +275,7 @@ var BrowseWrap = React.createClass({
 
 var styles = StyleSheet.create({
   greyBackground: {
-    backgroundColor: 'rgb(235, 235, 235)',
+    backgroundColor: 'rgb(240,240,240)',
   },
   navContainer: {
     flex: 1

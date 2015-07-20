@@ -31,6 +31,8 @@ var Main = React.createClass({
   },
 
   _updateDataSourceFromStore(){
+    console.log(UserStore.getState());
+
     this.setState({
       isLoading: false,
       user: UserStore.getState(),
@@ -48,6 +50,15 @@ var Main = React.createClass({
 
   openLoginScreen() {
     this.props.navigator.push({ id: 'loginmodal', title: 'login', component: Login });
+  },
+
+  viewAccount() {
+    if (UserStore.isAnonymousUser()) {
+      // Show Login Screen
+      this.props.navigator.push({ id: 'loginmodal', title: 'login', component: Login })
+    } else {
+      this.setState({curView: 'account'})
+    }
   },
 
   render() {
@@ -74,7 +85,7 @@ var Main = React.createClass({
               <LeftNavigation curView={this.state.curView} 
               browseSheetmusic={ () => this.setState({curView: 'browse'}) } 
               viewLibrary={ () => this.setState({curView: 'library'}) } 
-              viewAccount={ () => this.setState({curView: 'account'}) }/>
+              viewAccount={ this.viewAccount }/>
 
               <Library topNavigator={this.props.navigator} style={styles.browse} openLoginScreen={this.openLoginScreen} />
             </View>
@@ -86,24 +97,23 @@ var Main = React.createClass({
               <LeftNavigation curView={this.state.curView} 
               browseSheetmusic={ () => this.setState({curView: 'browse'}) } 
               viewLibrary={ () => this.setState({curView: 'library'}) } 
-              viewAccount={ () => this.setState({curView: 'account'}) }/>
+              viewAccount={ this.viewAccount }/>
 
               <Browse topNavigator={this.props.navigator} />
             </View>
           );
-        } else {
+        } else { // Account
           return (
             <View style={styles.container}>
               <LeftNavigation curView={this.state.curView} 
               browseSheetmusic={ () => this.setState({curView: 'browse'}) } 
               viewLibrary={ () => this.setState({curView: 'library'}) } 
-              viewAccount={ () => this.setState({curView: 'account'}) }/>
+              viewAccount={ this.viewAccount }/>
 
               <Account topNavigator={this.props.navigator} />
             </View>
           );
         }
-
       }
     }
   },

@@ -168,6 +168,15 @@ module.exports = {
         });
       }
     });
+  },
+
+  logout() {
+    StorageWrapper.setUser(null)
+    .then(() => {
+      dispatcher.handleViewAction({
+        actionType: AppConstants.LOGOUT_USER,
+      });
+    });
   }
 
 };

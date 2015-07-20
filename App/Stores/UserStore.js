@@ -49,6 +49,11 @@ var store = createStore({
             errorMessage
         )
         break;
+
+      case AppConstants.LOGOUT_USER:
+        _user = null;
+        store.emitChange(action);
+        break;
     }
 
     return true;
