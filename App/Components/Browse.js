@@ -6,6 +6,11 @@ var Separator = require('./Helpers/Separator');
 var SheetmusicDetail = require('./SheetmusicDetail');
 var SheetmusicStore = require('../Stores/SheetmusicStore');
 
+// HACK: flexWrap: 'wrap' requires a width in its parent
+// https://github.com/facebook/react-native/issues/1378
+const Dimensions = require('Dimensions');
+const windowSize = Dimensions.get('window');
+
 var {
   ActivityIndicatorIOS,
   Text,
@@ -16,7 +21,7 @@ var {
   SwitchIOS,
   ScrollView,
   TouchableHighlight,
-  NavigatorIOS
+  Navigator
 } = React;
 
 var Browse = React.createClass({
@@ -67,19 +72,16 @@ var Browse = React.createClass({
   },
 
   _showSheetmusicDetails(sheetmusic) {
-
     this.props.navigator.push({
-      component: SheetmusicDetail,
+      id: 'sheetmusicDetail',
       title: sheetmusic.title,
-      passProps: {
-        sheetmusicId: sheetmusic.id
-      }
+      sheetmusicId: sheetmusic.id
     })
   },
 
   _renderSheetmusicItem(sheetmusic) {
       return (
-          <TouchableHighlight onPress={() => this._showSheetmusicDetails(sheetmusic)} underlayColor="rgba(0,0,0,.1)">
+          <TouchableHighlight key={sheetmusic.id} onPress={() => this._showSheetmusicDetails(sheetmusic)} underlayColor="rgba(0,0,0,.1)">
           <View style={listItemStyles.item}>
               <Text style={listItemStyles.titleText}>{ sheetmusic.title }</Text>
               <View style={{marginTop: 5, flexDirection: 'row'}}>
@@ -115,7 +117,9 @@ var Browse = React.createClass({
 
   _renderCategoryFilter() {
     return (
+      
       <ScrollView style={[styles.categorizationScroll, styles.greyBackground]}>
+      
         <View style={styles.categorization}>
 
           <Text style={styles.categoryHeadingFont}>Categories</Text><Separator/>
@@ -132,9 +136,11 @@ var Browse = React.createClass({
           <Text style={[styles.categoryHeadingFont, {marginTop: 20}]}>Artists / Composers</Text><Separator/>
             {this.state.artists.map( (tag) => {return this._renderCategoryTag('artists', tag)})}
           </ScrollView>
-
+          
         </View>
+
       </ScrollView>
+      
     );
   },
 
@@ -225,28 +231,45 @@ var Browse = React.createClass({
           onScroll={this._handleScroll}
           onEndReached={this.onEndReached}>
             {this.state.sheetmusicList.map((sheetmusic) => { return this._renderSheetmusicItem(sheetmusic) })}
-            {this.renderLoadingFooter()}
           </ScrollView>
 
         </View>
       </View>
       )
-  }
+  },
 });
 
-var BrowseWrapper = React.createClass({
+var BrowseWrap = React.createClass({
+  renderScene: function(route, nav) {
+    switch (route.id) {
+      // Sheetmusic detail view.
+      case 'sheetmusicDetail':
+        console.log(route.title);
+        console.log(route.sheetmusicId);
+        return (
+          <SheetmusicDetail topNavigator={this.props.topNavigator} title={route.title} sheetmusicId={route.sheetmusicId} />
+        );
+      // Sheetmusic browse view.
+      default: 
+        return (
+          <Browse navigator={nav} />
+        );
+    }
+  },
+
   render() {
     return (
-      <NavigatorIOS
-        style={{
-          flexDirection: 'row', 
-          flex: 1,
-        }}
-        initialRoute={{
-          title: 'Browse',
-          component: Browse 
-        }} />
-    );
+      <Navigator
+        style={styles.navContainer}
+        initialRoute={{ id: 'ass' }}
+        renderScene={this.renderScene}
+        configureScene={(route) => {
+          if (route.sceneConfig) {
+            return route.sceneConfig;
+          }
+          return Navigator.SceneConfigs.FloatFromRight;
+        }}/>
+    )
   }
 });
 
@@ -254,17 +277,20 @@ var styles = StyleSheet.create({
   greyBackground: {
     backgroundColor: 'rgb(235, 235, 235)',
   },
+  navContainer: {
+    flex: 1
+  },
   container: {
     flexDirection: 'row',
     flex: 1,
-    paddingTop: 45,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    width: windowSize.width - 80 // subtract width of left nav
   },
   categorizationScroll: {
     flex: 0.5,
   },
   categorization: {
-    paddingLeft: 5
+    paddingLeft: 5,
   },
   sheetmusicList: {
     flex: 1,
@@ -346,4 +372,4 @@ var listItemStyles = StyleSheet.create({
     }
 });
 
-module.exports = BrowseWrapper;
+module.exports = BrowseWrap;

@@ -89,7 +89,7 @@ var Main = React.createClass({
           return (
             <View style={styles.container}>
               <LeftNavigation topNavigator={this.props.navigator} browseSheetmusic={this.browseSheetmusic} viewLibrary={this.viewLibrary} />
-              <Browse />
+              <Browse topNavigator={this.props.navigator} />
             </View>
           );
         }
