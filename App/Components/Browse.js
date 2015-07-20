@@ -267,7 +267,7 @@ var BrowseWrap = React.createClass({
           if (route.sceneConfig) {
             return route.sceneConfig;
           }
-          return Navigator.SceneConfigs.FloatFromRight;
+          return Navigator.SceneConfigs.HorizontalSwipeJump;
         }}/>
     )
   }
@@ -284,7 +284,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     backgroundColor: 'white',
-    width: windowSize.width - 80 // subtract width of left nav
+    width: windowSize.width - 75 // subtract width of left nav
   },
   categorizationScroll: {
     flex: 0.5,

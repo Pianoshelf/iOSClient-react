@@ -138,7 +138,7 @@ var Library = React.createClass({
           if (route.sceneConfig) {
             return route.sceneConfig;
           }
-          return Navigator.SceneConfigs.FloatFromRight;
+          return Navigator.SceneConfigs.HorizontalSwipeJump;
         }}/>
     )
   }
